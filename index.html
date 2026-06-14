@@ -1,112 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live World Cup Match Timeline</title>
-    <style>
-        :root {
-            --primary-bg: #111827;
-            --card-bg: #1f2937;
-            --accent-color: #ef4444;
-            --text-main: #ffffff;
-            --text-muted: #9ca3af;
-            --border-color: #374151;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>⚽ World Cup 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --pitch:#0a2e1a;--grass:#0d3d24;--turf:#134d2e;
+  --gold:#f5c842;--white:#f0f4f0;--muted:#8aaa96;
+  --card:#0f3d22;--live:#e53935;--live-glow:rgba(229,57,53,.3);
+  --done:#4caf70;--up:#5b8c71;--border:#1e5434;--text:#d6ead0;
+  --yc:#fdd835;--rc:#e53935;--news:#0d2a3d;--news-border:#1a4060;
+}
+body{font-family:'Inter',sans-serif;background:var(--pitch);color:var(--text);min-height:100vh;max-width:480px;margin:0 auto;padding-bottom:40px}
+
+/* HEADER */
+header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid var(--border);position:sticky;top:0;z-index:100}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.logo{display:flex;align-items:center;gap:8px}
+.logo-ball{font-size:22px}
+.logo-text h1{font-size:15px;font-weight:900;color:var(--gold);letter-spacing:-.3px;line-height:1}
+.logo-text p{font-size:9px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:1px}
+.header-actions{display:flex;gap:5px}
+.icon-btn{background:var(--turf);border:1px solid var(--border);color:var(--gold);border-radius:8px;padding:6px 9px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:3px;font-weight:600;transition:all .2s;white-space:nowrap}
+.icon-btn:active{transform:scale(.92)}
+.spin{display:inline-block;line-height:1}
+.spin.go{animation:spin .6s linear}
+@keyframes spin{to{transform:rotate(360deg)}}
+.tabs{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:20px;padding:5px 11px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s}
+.tab.active{background:var(--gold);border-color:var(--gold);color:var(--pitch)}
+
+/* STATUS */
+.status-bar{padding:6px 13px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--grass)}
+.live-indicator{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--live)}
+.live-dot{width:7px;height:7px;background:var(--live);border-radius:50%;animation:pulse 1.5s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--live-glow)}70%{box-shadow:0 0 0 6px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.last-upd{font-size:10px;color:var(--muted)}
+
+/* CONTENT */
+.content{padding:10px 11px; height: calc(100vh - 120px); overflow-y: auto;} /* Adjusted height for iframe */
+
+/* Iframe Widget Container */
+.widget-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 13px;
+    overflow: hidden;
+    background: var(--card); /* Placeholder background */
+}
+
+.widget-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="logo">
+      <span class="logo-ball">⚽</span>
+      <div class="logo-text">
+        <h1 id="app-title">WORLD CUP 2026</h1>
+        <p>USA · Canada · Mexico · 48 Teams</p>
+      </div>
+    </div>
+    <div class="header-actions">
+       <button class="icon-btn" onclick="refreshAll()"><span class="spin" id="spin-icon">↻</span></button>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab active" id="tab-live">🔴 Live Widget</button>
+  </div>
+</header>
+
+<div class="status-bar">
+  <div class="live-indicator"><div class="live-dot"></div><span id="live-count">Live Scores</span></div>
+  <span class="last-upd" id="last-upd">Real-time</span>
+</div>
+
+<div class="content" id="main-content">
+  <div class="widget-container">
+     <iframe src="https://www.scorebat.com/embed/livescore/" frameborder="0" allowfullscreen allow="autoplay; fullscreen" style="width:100%;height:100%;overflow:hidden;display:block;" class="_scorebatEmbeddedPlayer_"></iframe>
+  </div>
+</div>
+
+<script>
+    function refreshAll() {
+        const spinIcon = document.getElementById('spin-icon');
+        spinIcon.classList.add('go');
+        
+        // Reload iframe
+        const iframe = document.querySelector('iframe');
+        if(iframe) {
+            iframe.src = iframe.src;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            background-color: #0b0f17;
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-        }
-
-        /* Mobile Container Wrapper */
-        .mobile-container {
-            width: 100%;
-            max-width: 480px;
-            min-height: 100vh;
-            background-color: var(--primary-bg);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-
-        /* Live Header Scoreboard */
-        .scoreboard {
-            background: linear-gradient(180deg, #1e3a8a 0%, var(--card-bg) 100%);
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        .live-badge {
-            background-color: var(--accent-color);
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-            padding: 4px 8px;
-            border-radius: 12px;
-            text-transform: uppercase;
-            display: inline-block;
-            margin-bottom: 10px;
-            animation: blink 1.5s infinite;
-        }
-
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.4; }
-            100% { opacity: 1; }
-        }
-
-        .match-status {
-            font-size: 14px;
-            color: #34d399;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .teams-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-        .team {
-            flex: 1;
-        }
-
-        .team-flag {
-            font-size: 32px;
-            margin-bottom: 5px;
-        }
-
-        .team-name {
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .score {
-            font-size: 36px;
-            font-weight: 800;
-            flex: 1;
-            letter-spacing: 2px;
-        }
-
-        /* Timeline Section */
-        .timeline-section {
-            padding: 20px;
-            flex-grow: 1;
+        setTimeout(() => {
+            spinIcon.classList.remove('go');
+        }, 600);
+    }
+</script>
+</body>
+</html>
         }
 
         .timeline-title {
