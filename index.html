@@ -62,6 +62,7 @@ header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid va
 .tz-item.sel{border-color:var(--gold);color:var(--gold)}
 
 /* MATCH CARD */
+.date-header {font-size: 11px; font-weight: 700; color: var(--gold); text-transform: uppercase; margin: 15px 0 8px 5px; letter-spacing: 0.5px;}
 .match-card{background:var(--card);border-radius:13px;border:1px solid var(--border);margin-bottom:7px;overflow:hidden;cursor:pointer;}
 .match-card.live-game{border-color:var(--live);box-shadow:0 0 14px rgba(229,57,53,.18)}
 .match-top{padding:11px 12px 9px}
@@ -145,9 +146,10 @@ header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid va
 </div>
 
 <div class="content" id="main-content">
-  <div style="text-align:center;padding:40px;color:var(--muted);"><div style="font-size:32px">⚽</div><p style="margin-top:12px;font-size:13px">Đang tải dữ liệu World Cup...</p></div>
+  <div style="text-align:center;padding:40px;color:var(--muted);"><div style="font-size:32px">⚽</div><p style="margin-top:12px;font-size:13px">Đang tải toàn bộ dữ liệu giải đấu...</p></div>
 </div>
 
+<!-- SETTINGS MODAL -->
 <div class="modal-overlay" id="modal-settings" onclick="bgClose(event)">
   <div class="modal-box">
     <div class="modal-title"><span>⚙️ Cài đặt</span><button class="modal-close" onclick="closeModal('modal-settings')">✕</button></div>
@@ -162,6 +164,7 @@ header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid va
   </div>
 </div>
 
+<!-- MATCH DETAIL MODAL -->
 <div class="modal-overlay" id="modal-match" onclick="bgClose(event)">
   <div class="modal-box" id="modal-match-body"></div>
 </div>
@@ -173,14 +176,14 @@ header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid va
 // 1. STATE & CONSTANTS
 // ==========================================
 let MATCHES = []; 
-let STANDINGS = []; // Chứa dữ liệu bảng điểm
+let STANDINGS = []; 
 let currLang = 'vi'; 
 let currTz = 7; 
 let currTab = 'today';
 
 const LANGS = {
-  vi: { flag:'🇻🇳', label:'Tiếng Việt', today:'Tất cả', live:'🔴 Trực tiếp', upcoming:'Sắp tới', results:'Kết quả', standings:'Bảng điểm', noMatch:'Hiện chưa có trận đấu nào.', noLive:'Đang là ban đêm tại châu Mỹ.\nCác trận đấu thường đá vào rạng sáng giờ Việt Nam.' },
-  en: { flag:'🇬🇧', label:'English', today:'All', live:'🔴 Live', upcoming:'Upcoming', results:'Results', standings:'Standings', noMatch:'No matches available.', noLive:'It is currently nighttime in the Americas.\nNo live matches at this hour.' }
+  vi: { flag:'🇻🇳', label:'Tiếng Việt', today:'Tất cả', live:'🔴 Trực tiếp', upcoming:'Sắp tới', results:'Kết quả', standings:'Bảng điểm', noMatch:'Hiện chưa có trận đấu nào.', noLive:'Hiện không có trận đấu nào đang diễn ra.' },
+  en: { flag:'🇬🇧', label:'English', today:'All', live:'🔴 Live', upcoming:'Upcoming', results:'Results', standings:'Standings', noMatch:'No matches available.', noLive:'No live matches at the moment.' }
 };
 
 const TZS = [
@@ -198,7 +201,6 @@ async function fetchAllData() {
   const d = new Date();
   document.getElementById('last-upd').innerText = `Syncing...`;
   try {
-    // Gọi song song cả API Tỷ số và API Bảng điểm
     await Promise.all([fetchMatchData(), fetchStandingsData()]);
     document.getElementById('last-upd').innerText = `Cập nhật ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
     renderContent();
@@ -209,37 +211,44 @@ async function fetchAllData() {
 }
 
 async function fetchMatchData() {
-  const res = await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard');
+  // Lấy TOÀN BỘ dữ liệu từ 10/06 đến 20/07/2026 (Bao quát toàn giải đấu)
+  const apiUrl = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260610-20260720&limit=200';
+  const res = await fetch(apiUrl);
   const data = await res.json();
   
-  MATCHES = data.events.map(event => {
-    const comp = event.competitions[0];
-    const home = comp.competitors.find(c => c.homeAway === 'home');
-    const away = comp.competitors.find(c => c.homeAway === 'away');
+  if (data && data.events) {
+    MATCHES = data.events.map(event => {
+      const comp = event.competitions[0];
+      const home = comp.competitors.find(c => c.homeAway === 'home');
+      const away = comp.competitors.find(c => c.homeAway === 'away');
 
-    let status = 'upcoming';
-    const stateStr = event.status.type.state;
-    if (stateStr === 'in') status = 'live';
-    if (stateStr === 'post') status = 'results';
+      let status = 'upcoming';
+      const stateStr = event.status.type.state;
+      if (stateStr === 'in') status = 'live';
+      if (stateStr === 'post') status = 'results';
 
-    const homeLogo = home.team.logo || 'https://a.espncdn.com/i/teamlogos/soccer/500/default-team-logo-500.png';
-    const awayLogo = away.team.logo || 'https://a.espncdn.com/i/teamlogos/soccer/500/default-team-logo-500.png';
+      const homeLogo = home.team.logo || 'https://a.espncdn.com/i/teamlogos/soccer/500/default-team-logo-500.png';
+      const awayLogo = away.team.logo || 'https://a.espncdn.com/i/teamlogos/soccer/500/default-team-logo-500.png';
 
-    return {
-      id: event.id,
-      home: home.team.shortDisplayName || home.team.name,
-      homeFlag: `<img src="${homeLogo}" alt="${home.team.abbreviation}">`,
-      away: away.team.shortDisplayName || away.team.name,
-      awayFlag: `<img src="${awayLogo}" alt="${away.team.abbreviation}">`,
-      group: event.season.slug || 'WC',
-      status: status,
-      homeScore: home.score,
-      awayScore: away.score,
-      time: event.status.displayClock,
-      timestamp: new Date(event.date).getTime(),
-      venue: comp.venue ? comp.venue.fullName : 'Sân vận động'
-    };
-  });
+      return {
+        id: event.id,
+        home: home.team.shortDisplayName || home.team.name,
+        homeFlag: `<img src="${homeLogo}" alt="${home.team.abbreviation}">`,
+        away: away.team.shortDisplayName || away.team.name,
+        awayFlag: `<img src="${awayLogo}" alt="${away.team.abbreviation}">`,
+        group: event.season.slug || 'WC',
+        status: status,
+        homeScore: home.score,
+        awayScore: away.score,
+        time: event.status.displayClock,
+        timestamp: new Date(event.date).getTime(),
+        venue: comp.venue ? comp.venue.fullName : 'Sân vận động'
+      };
+    });
+    
+    // Sắp xếp các trận đấu theo thời gian
+    MATCHES.sort((a, b) => a.timestamp - b.timestamp);
+  }
 }
 
 async function fetchStandingsData() {
@@ -258,17 +267,13 @@ async function fetchStandingsData() {
             return {
               name: entry.team.shortDisplayName || entry.team.name,
               logo: entry.team.logos ? entry.team.logos[0].href : 'https://a.espncdn.com/i/teamlogos/soccer/500/default-team-logo-500.png',
-              gp: getStat('GP'), // Số trận đã đá
-              gd: getStat('GD'), // Hiệu số
-              p: getStat('P')    // Điểm số
+              gp: getStat('GP'), gd: getStat('GD'), p: getStat('P')
             };
           })
         };
       });
     }
-  } catch(e) {
-    console.error("Lỗi khi tải bảng điểm:", e);
-  }
+  } catch(e) { console.error("Lỗi khi tải bảng điểm:", e); }
 }
 
 // ==========================================
@@ -278,7 +283,6 @@ function renderContent() {
   const container = document.getElementById('main-content');
   const t = LANGS[currLang];
 
-  // Nếu người dùng đang chọn tab Bảng điểm -> Render Bảng điểm
   if (currTab === 'standings') {
     if (STANDINGS.length === 0) {
       container.innerHTML = `<div style="text-align:center;padding:40px;color:var(--muted);"><div style="font-size:32px">📊</div><p style="margin-top:12px;font-size:13px">Bảng điểm đang được cập nhật...</p></div>`;
@@ -289,39 +293,21 @@ function renderContent() {
       const rows = group.teams.map((team, idx) => `
         <tr>
           <td>
-            <div class="tc">
-              <span class="rn ${idx < 2 ? 'q' : ''}">${idx + 1}</span>
+            <div class="tc"><span class="rn ${idx < 2 ? 'q' : ''}">${idx + 1}</span>
               <img src="${team.logo}" style="width:18px;height:18px;object-fit:contain" onerror="this.src='https://a.espncdn.com/i/teamlogos/soccer/500/default-team-logo-500.png'">
               <span style="font-weight:600;color:var(--white)">${team.name}</span>
             </div>
           </td>
-          <td>${team.gp}</td>
-          <td>${team.gd > 0 ? '+'+team.gd : team.gd}</td>
-          <td class="pts">${team.p}</td>
+          <td>${team.gp}</td><td>${team.gd > 0 ? '+'+team.gd : team.gd}</td><td class="pts">${team.p}</td>
         </tr>
       `).join('');
 
-      return `
-        <div class="std-card">
-          <div class="std-hdr"><span class="std-grp">${group.name}</span></div>
-          <table class="std-table">
-            <thead>
-              <tr>
-                <th>Đội tuyển</th>
-                <th width="35">Trận</th>
-                <th width="35">H/S</th>
-                <th width="35">Điểm</th>
-              </tr>
-            </thead>
-            <tbody>${rows}</tbody>
-          </table>
-        </div>
-      `;
+      return `<div class="std-card"><div class="std-hdr"><span class="std-grp">${group.name}</span></div>
+          <table class="std-table"><thead><tr><th>Đội tuyển</th><th width="35">Trận</th><th width="35">H/S</th><th width="35">Điểm</th></tr></thead><tbody>${rows}</tbody></table></div>`;
     }).join('');
     return;
   }
   
-  // Nếu không phải Bảng điểm -> Render Trận đấu
   let filtered = MATCHES;
   if(currTab !== 'today') filtered = MATCHES.filter(m => m.status === currTab);
 
@@ -330,18 +316,29 @@ function renderContent() {
   document.getElementById('live-dot-ani').style.animationPlayState = liveCount > 0 ? 'running' : 'paused';
 
   if(filtered.length === 0) {
-    let emptyMsg = t.noMatch;
-    // Thông báo giải thích rõ vì sao không có trận Live
-    if(currTab === 'live') emptyMsg = t.noLive; 
-    
+    let emptyMsg = currTab === 'live' ? t.noLive : t.noMatch;
     container.innerHTML = `<div style="text-align:center;padding:40px;color:var(--muted);"><div style="font-size:32px">🏟️</div><p style="margin-top:12px;font-size:13px;line-height:1.6;white-space:pre-line;">${emptyMsg}</p></div>`;
     return;
   }
 
+  let lastDateStr = '';
+  
   container.innerHTML = filtered.map(m => {
     const isLive = m.status === 'live';
     const isDone = m.status === 'results';
     
+    // Tính toán lại ngày giờ hiển thị theo múi giờ đã chọn
+    const dateObj = new Date(m.timestamp);
+    const localTime = new Date(dateObj.getTime() + (currTz * 3600000) + (dateObj.getTimezoneOffset() * 60000));
+    
+    // Tạo Header ngày tháng để phân loại dễ nhìn giống Google
+    const dateStr = `${localTime.getDate()}/${localTime.getMonth()+1}/${localTime.getFullYear()}`;
+    let dateHeaderHtml = '';
+    if (dateStr !== lastDateStr && currTab === 'today') {
+        dateHeaderHtml = `<div class="date-header">Ngày ${dateStr}</div>`;
+        lastDateStr = dateStr;
+    }
+
     let tag = '', timeDisplay = '', scoreDisplay = '- : -';
     if(isLive) {
       tag = `<span class="s-tag live">LIVE</span>`;
@@ -353,12 +350,11 @@ function renderContent() {
       scoreDisplay = `${m.homeScore} <span class="score-sep">-</span> ${m.awayScore}`;
     } else {
       tag = `<span class="s-tag up">UPCOMING</span>`;
-      const dateObj = new Date(m.timestamp);
-      const localTime = new Date(dateObj.getTime() + (currTz * 3600000) + (dateObj.getTimezoneOffset() * 60000));
       timeDisplay = `<div class="m-time">${String(localTime.getHours()).padStart(2,'0')}:${String(localTime.getMinutes()).padStart(2,'0')}</div>`;
     }
 
     return `
+      ${dateHeaderHtml}
       <div class="match-card ${isLive ? 'live-game' : ''}" onclick="showMatchDetail('${m.id}')">
         <div class="match-top">
           <div class="match-meta"><span class="grp-tag">${m.group}</span>${tag}</div>
@@ -368,9 +364,7 @@ function renderContent() {
             <div class="team-away"><div class="t-flag">${m.awayFlag}</div><div class="t-name">${m.away}</div></div>
           </div>
         </div>
-        <div class="match-footer">
-          <span class="venue-txt">📍 ${m.venue}</span>
-        </div>
+        <div class="match-footer"><span class="venue-txt">📍 ${m.venue}</span></div>
       </div>
     `;
   }).join('');
@@ -390,27 +384,13 @@ window.openSettings = function() { document.getElementById('modal-settings').cla
 window.closeModal = function(id) { document.getElementById(id).classList.remove('open'); };
 window.bgClose = function(e) { if(e.target.classList.contains('modal-overlay')) e.target.classList.remove('open'); };
 
-window.setLang = function(k) {
-  currLang = k; 
-  buildSettings(); 
-  updateUI(); 
-  closeModal('modal-settings');
-};
-
-window.setTz = function(off) {
-  currTz = off; 
-  buildSettings(); 
-  renderContent(); 
-  closeModal('modal-settings');
-};
+window.setLang = function(k) { currLang = k; buildSettings(); updateUI(); closeModal('modal-settings'); };
+window.setTz = function(off) { currTz = off; buildSettings(); renderContent(); closeModal('modal-settings'); };
 
 window.triggerManualRefresh = function() {
   const spin = document.getElementById('spin-icon');
   spin.classList.add('go');
-  fetchAllData().then(() => {
-    setTimeout(() => spin.classList.remove('go'), 500);
-    showToast("Dữ liệu đã được làm mới!");
-  });
+  fetchAllData().then(() => { setTimeout(() => spin.classList.remove('go'), 500); showToast("Dữ liệu đã được làm mới!"); });
 };
 
 window.showMatchDetail = function(id) {
@@ -419,8 +399,13 @@ window.showMatchDetail = function(id) {
   const isLive = m.status === 'live';
   const scoreDisplay = (m.status !== 'upcoming') ? `${m.homeScore} - ${m.awayScore}` : 'v';
   
+  const dateObj = new Date(m.timestamp);
+  const localTime = new Date(dateObj.getTime() + (currTz * 3600000) + (dateObj.getTimezoneOffset() * 60000));
+  const timeStr = `${String(localTime.getHours()).padStart(2,'0')}:${String(localTime.getMinutes()).padStart(2,'0')} - ${localTime.getDate()}/${localTime.getMonth()+1}`;
+
   document.getElementById('modal-match-body').innerHTML = `
     <div class="modal-title"><span>Chi tiết</span><button class="modal-close" onclick="closeModal('modal-match')">✕</button></div>
+    <div style="text-align:center; font-size:12px; color:var(--gold); margin-bottom: 15px;">🕒 ${timeStr}</div>
     <div class="det-teams">
       <div class="det-team"><div class="det-flag">${m.homeFlag}</div><div class="det-name">${m.home}</div></div>
       <div class="det-score-wrap">
@@ -438,15 +423,8 @@ window.showMatchDetail = function(id) {
 // 5. INITIALIZATION
 // ==========================================
 function buildSettings() {
-  document.getElementById('lang-grid').innerHTML = Object.keys(LANGS).map(k => 
-    `<button class="opt-btn ${k===currLang?'sel':''}" onclick="setLang('${k}')">${LANGS[k].flag} ${LANGS[k].label}</button>`
-  ).join('');
-
-  document.getElementById('tz-grid').innerHTML = TZS.map(t => 
-    `<div class="tz-item ${t.off===currTz?'sel':''}" onclick="setTz(${t.off})">
-      <span>${t.label}</span><span class="tz-off">UTC${t.off>=0?'+':''}${t.off}</span>
-    </div>`
-  ).join('');
+  document.getElementById('lang-grid').innerHTML = Object.keys(LANGS).map(k => `<button class="opt-btn ${k===currLang?'sel':''}" onclick="setLang('${k}')">${LANGS[k].flag} ${LANGS[k].label}</button>`).join('');
+  document.getElementById('tz-grid').innerHTML = TZS.map(t => `<div class="tz-item ${t.off===currTz?'sel':''}" onclick="setTz(${t.off})"><span>${t.label}</span><span class="tz-off">UTC${t.off>=0?'+':''}${t.off}</span></div>`).join('');
 }
 
 function updateUI() {
@@ -471,7 +449,6 @@ document.addEventListener("DOMContentLoaded", () => {
   buildSettings();
   updateUI();
   fetchAllData();
-  // Tự động làm mới cả Tỷ số & Bảng điểm mỗi 60 giây
   setInterval(fetchAllData, 60000); 
 });
 </script>
