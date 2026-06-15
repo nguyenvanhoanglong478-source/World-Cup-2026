@@ -98,7 +98,9 @@ header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid va
 .rn.q{color:var(--done);font-weight:800}
 .pts{font-weight:800;color:var(--gold);font-size:13px;}
 
-/* DETAIL MODAL INNER STYLES */
+/* ==========================================
+   GIAO DIỆN MODAL UPGRADE PRO (TABS CHI TIẾT)
+   ========================================== */
 .det-flag img {width: 50px; height: 50px; object-fit: contain;}
 .det-teams{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:8px}
 .det-team{flex:1;text-align:center}
@@ -108,30 +110,48 @@ header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid va
 .det-sub{font-size:11px;color:var(--muted);margin-top:3px}
 .det-sub.lv{color:var(--live);font-weight:700}
 
-.md-tabs { display: flex; border-bottom: 1px solid var(--border); margin-top: 15px; margin-bottom: 15px;}
-.md-tab { flex: 1; text-align: center; padding: 10px 0; font-size: 12px; font-weight: 700; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s;}
-.md-tab.active { color: var(--gold); border-bottom-color: var(--gold);}
+.md-tabs { display: flex; background: rgba(0,0,0,0.15); border-radius: 10px; padding: 3px; margin: 15px 0; border: 1px solid var(--border);}
+.md-tab { flex: 1; text-align: center; padding: 8px 0; font-size: 11px; font-weight: 700; color: var(--muted); cursor: pointer; border-radius: 8px; transition: all 0.2s;}
+.md-tab.active { color: var(--pitch); background: var(--gold); font-weight: 800;}
 .md-content { display: none; }
-.md-content.active { display: block; animation: fadein 0.3s ease; }
-@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+.md-content.active { display: block; animation: fadein 0.25s ease; }
 
-.evt-row { display: flex; align-items: center; margin-bottom: 10px; font-size: 12px; }
-.evt-min { font-weight: 800; color: var(--gold); width: 35px; text-align: center; font-size:11px;}
-.evt-box { background: var(--turf); padding: 8px 12px; border-radius: 8px; flex: 1; display: flex; align-items: center; gap: 8px; border: 1px solid var(--border);}
-.evt-box.home { flex-direction: row-reverse; text-align: right; }
-.evt-player { color: var(--white); font-weight: 600; flex: 1; }
-.evt-sub { font-size: 10px; color: var(--muted); display: block; margin-top:2px; font-weight:normal;}
+/* 1. Thiết kế lại Dòng thời gian Sự kiện (Timeline) */
+.timeline-container { position: relative; margin: 10px 5px; padding-left: 35px; border-left: 2px dashed var(--border); }
+.evt-row { position: relative; margin-bottom: 18px; display: flex; align-items: flex-start; }
+.evt-badge-time { position: absolute; left: -47px; top: 2px; width: 24px; height: 24px; background: var(--turf); border: 2px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: var(--gold); z-index: 2; }
+.evt-badge-time.home-event { border-color: var(--gold); background: #1a5030; }
+.evt-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; flex: 1; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+.evt-card.home-side { border-left: 4px solid var(--gold); }
+.evt-card.away-side { border-left: 4px solid var(--muted); }
+.evt-icon-wrapper { font-size: 16px; width: 24px; text-align: center; }
+.evt-main-info { flex: 1; }
+.evt-p-name { font-size: 12px; font-weight: 700; color: var(--white); }
+.evt-p-action { font-size: 10px; color: var(--muted); margin-top: 1px; font-weight: 500; }
 
-.stat-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; font-size: 12px; font-weight: 600; }
-.stat-val { width: 40px; text-align: center; color: var(--white); }
-.stat-label { flex: 1; text-align: center; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+/* 2. Thiết kế lại Đồ họa so sánh Thống kê (Progress Bars) */
+.stat-container { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 15px; }
+.stat-item-block { margin-bottom: 16px; }
+.stat-item-block:last-child { margin-bottom: 0; }
+.stat-labels-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; margin-bottom: 5px; }
+.stat-v-home { color: var(--gold); font-size: 13px; font-weight: 800; }
+.stat-v-away { color: var(--white); font-size: 13px; }
+.stat-v-lbl { color: var(--text); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+.stat-bar-graph-bg { height: 6px; background: rgba(0,0,0,0.3); border-radius: 3px; display: flex; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+.stat-bar-fill-home { background: var(--gold); height: 100%; transition: width 0.4s ease; border-radius: 3px 0 0 3px; }
+.stat-bar-fill-away { background: var(--muted); height: 100%; transition: width 0.4s ease; border-radius: 0 3px 3px 0; margin-left: auto; }
 
-.lineup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.lineup-col-title { font-size: 11px; text-align: center; color: var(--gold); font-weight: 800; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid var(--border); padding-bottom: 5px;}
-.player-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 11px; color: var(--white); }
-.player-num { font-weight: 800; color: var(--muted); width: 18px; text-align: center; font-size:10px; }
-.bench-title { margin-top: 15px; font-size: 10px; color: var(--muted); text-transform: uppercase; border-top: 1px dashed var(--border); padding-top: 8px; }
+/* 3. Thiết kế lại Đội hình xuất phát (Lineups) */
+.lineup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.lineup-team-block { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px; }
+.lineup-title-bar { font-size: 11px; font-weight: 800; color: var(--gold); text-align: center; text-transform: uppercase; padding-bottom: 8px; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
+.player-list-item { display: flex; align-items: center; gap: 8px; padding: 6px 4px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.player-list-item:last-child { border-bottom: none; }
+.player-jersey-circle { width: 20px; height: 20px; background: var(--turf); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; color: var(--gold); flex-shrink: 0; }
+.player-name-txt { font-size: 11px; font-weight: 600; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
+.bench-divider-lbl { text-align: center; font-size: 9px; font-weight: 700; color: var(--muted); text-transform: uppercase; margin: 12px 0 8px; padding: 2px 0; background: rgba(0,0,0,0.15); border-radius: 4px; letter-spacing: 0.5px; }
 
+/* TOAST */
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--gold);border:1px solid var(--gold);border-radius:12px;padding:12px 20px;font-size:13px;font-weight:800;color:var(--pitch);z-index:999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;max-width:320px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.5)}
 .toast.show{transform:translateX(-50%) translateY(0)}
 </style>
@@ -192,7 +212,7 @@ header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid va
 
 <script>
 // ==========================================
-// 1. DICTIONARY
+// 1. DICTIONARY (BỘ TỪ ĐIỂN ĐA NGÔN NGỮ HOÀN CHỈNH)
 // ==========================================
 const LANGS = {
   vi: { 
@@ -202,10 +222,10 @@ const LANGS = {
     empty: { noMatch:'Hiện chưa có trận đấu nào.', noLive:'Hiện không có trận đấu nào đang diễn ra.', stdLoad:'Bảng điểm đang được cập nhật...' },
     std: { team:'Đội tuyển', played:'Trận', gd:'H/S', pts:'Điểm' },
     card: { day:'Ngày', stadium:'Sân vận động', upcoming:'SẮP ĐÁ' },
-    modal: { details:'Chi tiết', events:'Sự kiện', stats:'Thống kê', lineups:'Đội hình', loading:'Đang lấy dữ liệu chi tiết...', fail:'Không thể tải dữ liệu.', assist:'Kiến tạo' },
-    inner: { noEvents:'Chưa có sự kiện nào.', noStats:'Dữ liệu thống kê chưa sẵn sàng.', noLineups:'Đội hình chưa công bố.', bench:'Dự bị' },
-    stats: { possession:'Kiểm soát bóng (%)', shots:'Cú sút (Trúng đích)', passes:'Số đường chuyền', fouls:'Phạm lỗi', corners:'Phạt góc' },
-    settings: { title:'⚙️ Cài đặt', lang:'🌍 Ngôn ngữ', tz:'🕐 Múi giờ', refreshMsg:'Đã làm mới dữ liệu!' }
+    modal: { details:'Chi tiết Trận đấu', events:'Sự kiện', stats:'Thống kê', lineups:'Đội hình', loading:'Đang lấy dữ liệu chi tiết...', fail:'Không thể tải dữ liệu.', assist:'Kiến tạo' },
+    inner: { noEvents:'Chưa có sự kiện quan trọng nào.', noStats:'Dữ liệu thống kê chưa sẵn sàng.', noLineups:'Đội hình chưa được công bố.', bench:'Dự bị', starters:'Đá chính' },
+    stats: { possession:'Kiểm soát bóng', shots:'Sút bóng (Trúng đích)', passes:'Tổng đường chuyền', fouls:'Phạm lỗi', corners:'Phạt góc' },
+    settings: { title:'⚙️ Cài đặt', lang:'🌍 Ngôn ngữ', tz:'🕐 Múi giờ', refreshMsg:'Đã làm mới dữ liệu hệ thống!' }
   },
   en: { 
     flag:'🇬🇧', label:'English',
@@ -214,9 +234,9 @@ const LANGS = {
     empty: { noMatch:'No matches available.', noLive:'No live matches at the moment.', stdLoad:'Standings are being updated...' },
     std: { team:'Team', played:'P', gd:'GD', pts:'Pts' },
     card: { day:'Date', stadium:'Stadium', upcoming:'UPCOMING' },
-    modal: { details:'Details', events:'Events', stats:'Stats', lineups:'Lineups', loading:'Fetching match details...', fail:'Could not load details.', assist:'Assist' },
-    inner: { noEvents:'No key events yet.', noStats:'Statistics not available.', noLineups:'Lineups not announced.', bench:'Bench' },
-    stats: { possession:'Possession (%)', shots:'Shots (On Goal)', passes:'Total Passes', fouls:'Fouls Committed', corners:'Won Corners' },
+    modal: { details:'Match Details', events:'Events', stats:'Stats', lineups:'Lineups', loading:'Fetching match details...', fail:'Could not load details.', assist:'Assist' },
+    inner: { noEvents:'No key events yet.', noStats:'Statistics not available.', noLineups:'Lineups not announced.', bench:'Bench', starters:'Starters' },
+    stats: { possession:'Possession', shots:'Shots (On Goal)', passes:'Total Passes', fouls:'Fouls Committed', corners:'Won Corners' },
     settings: { title:'⚙️ Settings', lang:'🌍 Language', tz:'🕐 Time Zone', refreshMsg:'Data refreshed!' }
   },
   es: { 
@@ -226,9 +246,9 @@ const LANGS = {
     empty: { noMatch:'No hay partidos disponibles.', noLive:'No hay partidos en vivo.', stdLoad:'Actualizando clasificación...' },
     std: { team:'Equipo', played:'PJ', gd:'DG', pts:'Pts' },
     card: { day:'Fecha', stadium:'Estadio', upcoming:'PRÓXIMO' },
-    modal: { details:'Detalles', events:'Eventos', stats:'Estadísticas', lineups:'Alineaciones', loading:'Obteniendo detalles...', fail:'No se pudieron cargar los detalles.', assist:'Asistencia' },
-    inner: { noEvents:'Aún no hay eventos.', noStats:'Estadísticas no disponibles.', noLineups:'Alineaciones no anunciadas.', bench:'Banquillo' },
-    stats: { possession:'Posesión (%)', shots:'Tiros (A puerta)', passes:'Pases Totales', fouls:'Faltas', corners:'Córners' },
+    modal: { details:'Detalles del Partido', events:'Eventos', stats:'Estadísticas', lineups:'Alineaciones', loading:'Obteniendo detalles...', fail:'No se pudieron cargar los detalles.', assist:'Asistencia' },
+    inner: { noEvents:'Aún no hay eventos.', noStats:'Estadísticas no disponibles.', noLineups:'Alineaciones no anunciadas.', bench:'Banquillo', starters:'Titulares' },
+    stats: { possession:'Posesión', shots:'Tiros (A puerta)', passes:'Pases Totales', fouls:'Faltas', corners:'Córners' },
     settings: { title:'⚙️ Ajustes', lang:'🌍 Idioma', tz:'🕐 Zona Horaria', refreshMsg:'¡Datos actualizados!' }
   },
   fr: { 
@@ -238,9 +258,9 @@ const LANGS = {
     empty: { noMatch:'Aucun match disponible.', noLive:'Aucun match en direct.', stdLoad:'Mise à jour du classement...' },
     std: { team:'Équipe', played:'J', gd:'DB', pts:'Pts' },
     card: { day:'Date', stadium:'Stade', upcoming:'À VENIR' },
-    modal: { details:'Détails', events:'Événements', stats:'Statistiques', lineups:'Compositions', loading:'Récupération des détails...', fail:'Impossible de charger les détails.', assist:'Passe décisive' },
-    inner: { noEvents:'Aucun événement.', noStats:'Statistiques non disponibles.', noLineups:'Compositions non annoncées.', bench:'Remplaçants' },
-    stats: { possession:'Possession (%)', shots:'Tirs (Cadrés)', passes:'Passes Totales', fouls:'Fautes Commises', corners:'Corners' },
+    modal: { details:'Détails du Match', events:'Événements', stats:'Statistiques', lineups:'Compositions', loading:'Récupération des détails...', fail:'Impossible de charger les détails.', assist:'Passe décisive' },
+    inner: { noEvents:'Aucun événement.', noStats:'Statistiques non disponibles.', noLineups:'Compositions non annoncées.', bench:'Remplaçants', starters:'Titulaires' },
+    stats: { possession:'Possession', shots:'Tirs (Cadrés)', passes:'Passes Totales', fouls:'Fautes Commises', corners:'Corners' },
     settings: { title:'⚙️ Paramètres', lang:'🌍 Langue', tz:'🕐 Fuseau Horaire', refreshMsg:'Données actualisées!' }
   },
   zh: { 
@@ -250,9 +270,9 @@ const LANGS = {
     empty: { noMatch:'暂无比赛。', noLive:'当前无直播比赛。', stdLoad:'积分榜更新中...' },
     std: { team:'球队', played:'场', gd:'净胜', pts:'积分' },
     card: { day:'日期', stadium:'体育场', upcoming:'即将开始' },
-    modal: { details:'详情', events:'事件', stats:'统计', lineups:'阵容', loading:'正在获取比赛详情...', fail:'无法加载详情。', assist:'助攻' },
-    inner: { noEvents:'暂无关键事件。', noStats:'统计数据不可用。', noLineups:'阵容未公布。', bench:'替补' },
-    stats: { possession:'控球率 (%)', shots:'射门 (射正)', passes:'总传球', fouls:'犯规', corners:'角球' },
+    modal: { details:'比赛详情', events:'事件', stats:'统计', lineups:'阵容', loading:'正在获取比赛详情...', fail:'无法加载详情。', assist:'助攻' },
+    inner: { noEvents:'暂无关键事件。', noStats:'统计数据不可用。', noLineups:'阵容未公布。', bench:'替补', starters:'首发' },
+    stats: { possession:'控球率', shots:'射门 (射正)', passes:'总传球', fouls:'犯规', corners:'角球' },
     settings: { title:'⚙️ 设置', lang:'🌍 语言', tz:'🕐 时区', refreshMsg:'数据已刷新！' }
   }
 };
@@ -353,7 +373,7 @@ async function fetchStandingsData() {
 }
 
 // ==========================================
-// 3. UI RENDER LOGIC
+// 3. MAIN UI RENDER LOGIC
 // ==========================================
 function renderContent() {
   const container = document.getElementById('main-content');
@@ -445,7 +465,7 @@ function renderContent() {
 }
 
 // ==========================================
-// 4. MATCH DETAILS MODAL
+// 4. MATCH DETAILS MODAL (UPGRADED PRO GRAPHICS)
 // ==========================================
 window.showMatchDetail = async function(id) {
   const m = MATCHES.find(x => x.id === id);
@@ -458,6 +478,7 @@ window.showMatchDetail = async function(id) {
   const localTime = new Date(dateObj.getTime() + (currTz * 3600000) + (dateObj.getTimezoneOffset() * 60000));
   const timeStr = `${String(localTime.getHours()).padStart(2,'0')}:${String(localTime.getMinutes()).padStart(2,'0')} - ${localTime.getDate()}/${localTime.getMonth()+1}`;
 
+  // Skeleton view
   document.getElementById('modal-match-body').innerHTML = `
     <div class="modal-title"><span>${t.modal.details}</span><button class="modal-close" onclick="closeModal('modal-match')">✕</button></div>
     <div style="text-align:center; font-size:12px; color:var(--gold); margin-bottom: 15px;">🕒 ${timeStr}</div>
@@ -477,9 +498,10 @@ window.showMatchDetail = async function(id) {
     const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary?event=${id}`);
     const summary = await res.json();
 
-    let eventsHtml = `<div style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">${t.inner.noEvents}</div>`;
+    // --- RENDERING TABS 1: TIMELINE ---
+    let eventsHtml = `<div style="text-align:center;color:var(--muted);font-size:12px;padding:30px;">${t.inner.noEvents}</div>`;
     if(summary.keyEvents && summary.keyEvents.length > 0) {
-      eventsHtml = summary.keyEvents.map(evt => {
+      eventsHtml = `<div class="timeline-container">` + summary.keyEvents.map(evt => {
         const isHome = evt.team && evt.team.id === m.homeId;
         let icon = '⚽';
         if(evt.type.text.toLowerCase().includes('yellow')) icon = '🟨';
@@ -488,22 +510,23 @@ window.showMatchDetail = async function(id) {
 
         return `
           <div class="evt-row">
-            ${isHome ? '' : '<div style="flex:1"></div>'}
-            <div class="evt-box ${isHome ? 'home' : ''}">
-              <div class="evt-min">${evt.clock.displayValue}</div>
-              <div>${icon}</div>
-              <div class="evt-player">
-                ${evt.text}
-                ${evt.type.text.includes('Goal') && evt.participants && evt.participants[1] ? `<span class="evt-sub">${t.modal.assist}: ${evt.participants[1].athlete.shortName}</span>` : ''}
+            <div class="evt-badge-time ${isHome ? 'home-event' : ''}">${evt.clock.displayValue}</div>
+            <div class="evt-card ${isHome ? 'home-side' : 'away-side'}">
+              <div class="evt-icon-wrapper">${icon}</div>
+              <div class="evt-main-info">
+                <div class="evt-p-name">${evt.text}</div>
+                <div class="evt-p-action">
+                  ${evt.type.text.includes('Goal') && evt.participants && evt.participants[1] ? `<span>👟 ${t.modal.assist}: ${evt.participants[1].athlete.shortName}</span>` : evt.type.text}
+                </div>
               </div>
             </div>
-            ${isHome ? '<div style="flex:1"></div>' : ''}
           </div>
         `;
-      }).join('');
+      }).join('') + `</div>`;
     }
 
-    let statsHtml = `<div style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">${t.inner.noStats}</div>`;
+    // --- RENDERING TABS 2: PRO PROGRESS BARS ---
+    let statsHtml = `<div style="text-align:center;color:var(--muted);font-size:12px;padding:30px;">${t.inner.noStats}</div>`;
     if(summary.boxscore && summary.boxscore.teams && summary.boxscore.teams.length === 2) {
       const t1 = summary.boxscore.teams[0]; 
       const t2 = summary.boxscore.teams[1];
@@ -519,17 +542,37 @@ window.showMatchDetail = async function(id) {
         {key: 'wonCorners', label: t.stats.corners}
       ];
 
-      statsHtml = statKeys.map(sk => {
+      statsHtml = `<div class="stat-container">` + statKeys.map(sk => {
         const hStat = homeStats.find(s => s.name === sk.key);
         const aStat = awayStats.find(s => s.name === sk.key);
         const hVal = hStat ? hStat.displayValue : '0';
         const aVal = aStat ? aStat.displayValue : '0';
         
-        return `<div class="stat-row"><div class="stat-val">${hVal}</div><div class="stat-label">${sk.label}</div><div class="stat-val">${aVal}</div></div>`;
-      }).join('');
+        // Trích xuất số thực để tính toán đồ họa thanh tiến trình
+        let hNum = parseInt(hVal) || 0;
+        let aNum = parseInt(aVal) || 0;
+        let total = hNum + aNum || 1;
+        let homePct = (hNum / total) * 100;
+        let awayPct = (aNum / total) * 100;
+
+        return `
+          <div class="stat-item-block">
+            <div class="stat-labels-row">
+              <span class="stat-v-home">${hVal}</span>
+              <span class="stat-v-lbl">${sk.label}</span>
+              <span class="stat-v-away">${aVal}</span>
+            </div>
+            <div class="stat-bar-graph-bg">
+              <div class="stat-bar-fill-home" style="width: ${homePct}%"></div>
+              <div class="stat-bar-fill-away" style="width: ${awayPct}%"></div>
+            </div>
+          </div>
+        `;
+      }).join('') + `</div>`;
     }
 
-    let lineupsHtml = `<div style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">${t.inner.noLineups}</div>`;
+    // --- RENDERING TABS 3: JERSEY LIST LINEUPS ---
+    let lineupsHtml = `<div style="text-align:center;color:var(--muted);font-size:12px;padding:30px;">${t.inner.noLineups}</div>`;
     if(summary.rosters && summary.rosters.length === 2) {
       const t1 = summary.rosters[0];
       const t2 = summary.rosters[1];
@@ -537,20 +580,40 @@ window.showMatchDetail = async function(id) {
       const homeRoster = t1IsHome ? t1.roster : t2.roster;
       const awayRoster = t1IsHome ? t2.roster : t1.roster;
 
-      const buildRoster = (rosterList) => {
-        let starters = rosterList.filter(p => p.starter).map(p => `<div class="player-row"><span class="player-num">${p.jersey||'-'}</span> ${p.athlete.displayName}</div>`).join('');
-        let bench = rosterList.filter(p => !p.starter).map(p => `<div class="player-row" style="color:var(--muted)"><span class="player-num">${p.jersey||'-'}</span> ${p.athlete.displayName}</div>`).join('');
-        return starters + `<div class="bench-title">${t.inner.bench}</div>` + bench;
+      const buildRosterHTML = (title, rosterList) => {
+        let starters = rosterList.filter(p => p.starter).map(p => `
+          <div class="player-list-item">
+            <div class="player-jersey-circle">${p.jersey||'-'}</div>
+            <div class="player-name-txt">${p.athlete.displayName}</div>
+          </div>
+        `).join('');
+
+        let bench = rosterList.filter(p => !p.starter).map(p => `
+          <div class="player-list-item" style="opacity: 0.6;">
+            <div class="player-jersey-circle" style="background:rgba(0,0,0,0.2); color:var(--muted);">${p.jersey||'-'}</div>
+            <div class="player-name-txt" style="font-weight:normal;">${p.athlete.displayName}</div>
+          </div>
+        `).join('');
+
+        return `
+          <div class="lineup-team-block">
+            <div class="lineup-title-bar">${title}</div>
+            ${starters}
+            <div class="bench-divider-lbl">${t.inner.bench}</div>
+            ${bench}
+          </div>
+        `;
       };
 
       lineupsHtml = `
         <div class="lineup-grid">
-          <div><div class="lineup-col-title">${m.home}</div>${buildRoster(homeRoster)}</div>
-          <div><div class="lineup-col-title">${m.away}</div>${buildRoster(awayRoster)}</div>
+          ${buildRosterHTML(m.home, homeRoster)}
+          ${buildRosterHTML(m.away, awayRoster)}
         </div>
       `;
     }
 
+    // Re-inject entire built popup tabs to the box
     document.getElementById('modal-match-body').innerHTML = `
       <div class="modal-title"><span>${t.modal.details}</span><button class="modal-close" onclick="closeModal('modal-match')">✕</button></div>
       <div style="text-align:center; font-size:12px; color:var(--gold); margin-bottom: 15px;">🕒 ${timeStr}</div>
@@ -574,8 +637,8 @@ window.showMatchDetail = async function(id) {
       <div id="md-lineups" class="md-content">${lineupsHtml}</div>
     `;
   } catch(e) {
-    console.log("Error:", e);
-    document.getElementById('modal-match-body').innerHTML += `<div style="text-align:center; color:var(--live); font-size:12px;">${t.modal.fail}</div>`;
+    console.log("Error loading match details summary:", e);
+    document.getElementById('modal-match-body').innerHTML += `<div style="text-align:center; color:var(--live); font-size:12px; padding:20px;">${t.modal.fail}</div>`;
   }
 };
 
@@ -587,7 +650,7 @@ window.switchModalTab = function(tabId, btn) {
 };
 
 // ==========================================
-// 5. SETTINGS & UTILS
+// 5. SETTINGS & INTERACTIVE CORE UTILS
 // ==========================================
 window.switchTab = function(tab, btn) {
   currTab = tab;
@@ -610,19 +673,16 @@ window.triggerManualRefresh = function() {
 };
 
 function buildSettings() {
-  const t = LANGS[currLang];
   document.getElementById('lang-grid').innerHTML = Object.keys(LANGS).map(k => `<button class="opt-btn ${k===currLang?'sel':''}" onclick="setLang('${k}')">${LANGS[k].flag} ${LANGS[k].label}</button>`).join('');
   document.getElementById('tz-grid').innerHTML = TZS.map(tz => `<div class="tz-item ${tz.off===currTz?'sel':''}" onclick="setTz(${tz.off})"><span>${tz.label}</span><span class="tz-off">UTC${tz.off>=0?'+':''}${tz.off}</span></div>`).join('');
 }
 
 function updateUI() {
   const t = LANGS[currLang];
-  // Cập nhật Cài đặt
   document.getElementById('set-title').innerText = t.settings.title;
   document.getElementById('set-lang').innerText = t.settings.lang;
   document.getElementById('set-tz').innerText = t.settings.tz;
 
-  // Cập nhật Header Tabs
   document.getElementById('lang-btn').innerHTML = `🌐 ${currLang.toUpperCase()}`;
   document.getElementById('tab-today').innerText = t.tabs.today;
   document.getElementById('tab-live').innerText = t.tabs.live;
@@ -630,11 +690,9 @@ function updateUI() {
   document.getElementById('tab-results').innerText = t.tabs.results;
   document.getElementById('tab-standings').innerText = t.tabs.standings;
 
-  // Cập nhật giao diện lúc trống (nếu chưa tải xong)
   const loadingTxt = document.getElementById('loading-txt');
   if (loadingTxt) loadingTxt.innerText = t.status.loading;
   
-  // Render lại toàn bộ dữ liệu với ngôn ngữ mới
   if (MATCHES.length > 0 || STANDINGS.length > 0) renderContent();
 }
 
