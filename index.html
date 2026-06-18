@@ -126,7 +126,7 @@ header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid va
 .md-content.active { display: block; animation: tabFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 @keyframes tabFadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-/* DIỄN BIẾN (GỌN GÀNG, CHIA 2 BÊN RÕ RỆT) */
+/* DIỄN BIẾN (ĐÃ CĂN TRÁI HOÀN TOÀN NHƯNG GIỮ MÀU VIỀN PHÂN BIỆT) */
 .timeline-container { position: relative; margin: 10px 5px; padding-left: 35px; border-left: 2px dashed var(--border); }
 .evt-row { position: relative; margin-bottom: 18px; display: flex; align-items: flex-start; }
 .evt-badge-time { position: absolute; left: -47px; top: 2px; width: 24px; height: 24px; background: var(--turf); border: 2px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: var(--gold); z-index: 2; }
@@ -134,11 +134,11 @@ header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid va
 .evt-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; flex: 1; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
 .evt-icon-wrapper { font-size: 16px; width: 24px; text-align: center; }
 .evt-main-info { flex: 1; }
-.evt-p-name { font-size: 13px; font-weight: 700; color: var(--white); line-height: 1.2;}
+.evt-p-name { font-size: 13px; font-weight: 700; color: var(--white); line-height: 1.3;}
 .evt-p-action { font-size: 11px; color: var(--muted); margin-top: 4px; font-weight: 500; }
 
-/* CHIA 2 BÊN ĐỘI NHÀ / ĐỘI KHÁCH */
-.evt-card.home-side { border-left: 4px solid var(--gold); flex-direction: row-reverse; text-align: right; }
+/* VIỀN MÀU PHÂN BIỆT ĐỘI NHÀ / ĐỘI KHÁCH */
+.evt-card.home-side { border-left: 4px solid var(--gold); }
 .evt-card.away-side { border-left: 4px solid var(--muted); }
 
 /* Progress Bars Thống kê */
@@ -241,7 +241,7 @@ const LANGS = {
   pt: { flag:"🇧🇷", label:"Português", tabs: { today:"Hoje", live:"🔴 Ao vivo", upcoming:"Próximos", results:"Resultados", standings:"Classificação" }, status: { liveCount:"Ao vivo", syncing:"Sincronizando...", updated:"Atualizado", loading:"Carregando..." }, empty: { noMatch:"Sem jogos.", noLive:"Sem jogos ao vivo.", stdLoad:"Atualizando..." }, std: { team:"Time", played:"J", gd:"SG", pts:"Pts" }, card: { day:"Data", stadium:"Estádio", upcoming:"EM BREVE" }, modal: { details:"Detalhes", events:"Eventos", stats:"Estatísticas", lineups:"Escalações", loading:"Carregando...", fail:"Erro.", goal:"Gol", yellowCard:"Cartão Amarelo", redCard:"Cartão Vermelho" }, inner: { noEvents:"Nenhum evento.", noStats:"Sem estatísticas.", noLineups:"Sem escalações.", bench:"Banco", starters:"Titulares" }, stats: { possession:"Posse", shots:"Chutes (No gol)", passes:"Passes", fouls:"Faltas", corners:"Escanteios" }, settings: { title:"⚙️ Configurações", lang:"🌍 Idioma", tz:"🕐 Fuso Horário", refreshMsg:"Atualizado!" } },
   zh: { flag:"🇨🇳", label:"中文", tabs: { today:"全部", live:"🔴 直播", upcoming:"即将开始", results:"结果", standings:"积分榜" }, status: { liveCount:"直播", syncing:"同步中...", updated:"已更新", loading:"正在加载数据..." }, empty: { noMatch:"暂无比赛。", noLive:"当前无直播比赛。", stdLoad:"积分榜更新中..." }, std: { team:"球队", played:"场", gd:"净胜", pts:"积分" }, card: { day:"日期", stadium:"体育场", upcoming:"即将开始" }, modal: { details:"比赛详情", events:"事件", stats:"统计", lineups:"阵容", loading:"正在获取...", fail:"无法加载。", goal:"进球", yellowCard:"黄牌", redCard:"红牌" }, inner: { noEvents:"暂无事件。", noStats:"统计不可用。", noLineups:"阵容未公布。", bench:"替补", starters:"首发" }, stats: { possession:"控球率", shots:"射门 (射正)", passes:"总传球", fouls:"犯规", corners:"角球" }, settings: { title:"⚙️ 设置", lang:"🌍 语言", tz:"🕐 时区", refreshMsg:"数据已刷新！" } },
   ja: { flag:"🇯🇵", label:"日本語", tabs: { today:"今日", live:"🔴 ライブ", upcoming:"予定", results:"結果", standings:"順位表" }, status: { liveCount:"ライブ", syncing:"同期中...", updated:"更新済み", loading:"ロード中..." }, empty: { noMatch:"試合なし。", noLive:"ライブなし。", stdLoad:"順位表を更新中..." }, std: { team:"チーム", played:"試", gd:"差", pts:"点" }, card: { day:"日付", stadium:"スタジアム", upcoming:"予定" }, modal: { details:"詳細", events:"イベント", stats:"統計", lineups:"スタメン", loading:"詳細を取得中...", fail:"エラー。", goal:"ゴール", yellowCard:"イエローカード", redCard:"レッドカード" }, inner: { noEvents:"イベントなし。", noStats:"統計なし。", noLineups:"ラインナップ未発表。", bench:"ベンチ", starters:"スタメン" }, stats: { possession:"支配率", shots:"シュート (枠内)", passes:"パス", fouls:"ファウル", corners:"コーナー" }, settings: { title:"⚙️ 設定", lang:"🌍 言語", tz:"🕐 タイムゾーン", refreshMsg:"更新しました！" } },
-  ko: { flag:"🇰🇷", label:"한국어", tabs: { today:"오늘", live:"🔴 라이브", upcoming:"예정", results:"결과", standings:"순위표" }, status: { liveCount:"라이브", syncing:"동기화 중...", updated:"업데이트 됨", loading:"로딩 중..." }, empty: { noMatch:"경기 없음.", noLive:"라이브 경기 없음.", stdLoad:"순위표 업데이트 중..." }, std: { team:"팀", played:"전", gd:"득실", pts:"승점" }, card: { day:"날짜", stadium:"경기장", upcoming:"예정" }, modal: { details:"세부정보", events:"이벤트", stats:"통계", lineups:"라인업", loading:"세부정보 로드 중...", fail:"오류 발생.", goal:"골", yellowCard:"경고", redCard:"퇴장" }, inner: { noEvents:"이벤트 없음.", noStats:"통계 없음.", noLineups:"라인업 미발표.", bench:"벤치", starters:"선발" }, stats: { possession:"점유율", shots:"슈팅 (유효)", passes:"패스", fouls:"파울", corners:"코너킥" }, settings: { title:"⚙️ 설정", lang:"🌍 언어", tz:"🕐 시간대", refreshMsg:"업데이트 완료!" } },
+  ko: { flag:"🇰🇷", label:"한국어", tabs: { today:"오늘", live:"🔴 라이브", upcoming:"예정", results:"결과", standings:"순위표" }, status: { liveCount:"라이브", syncing:"동기화 중...", updated:"업데이트 됨", loading:"로딩 중..." }, empty: { noMatch:"경기 없음.", noLive:"라이브 경기 없음.", stdLoad:"순위표 업데이트 중..." }, std: { team:"팀", played:"전", gd:"득실", pts:"승점" }, card: { day:"날짜", stadium:"경기장", upcoming:"예정" }, modal: { details:"세부정보", events:"이벤트", stats:"통계", lineups:"라인업", loading:"세부정보 로드 중...", fail:"오류 발생.", goal:"골", yellowCard:"경고", redCard:"퇴장" }, inner: { 단어:"이벤트 없음.", noStats:"통계 없음.", noLineups:"라인업 미발표.", bench:"벤치", starters:"선발" }, stats: { possession:"점유율", shots:"슈팅 (유효)", passes:"패스", fouls:"파울", corners:"코너킥" }, settings: { title:"⚙️ 설정", lang:"🌍 언어", tz:"🕐 시간대", refreshMsg:"업데이트 완료!" } },
   ar: { flag:"🇸🇦", label:"العربية", tabs: { today:"الكل", live:"🔴 مباشر", upcoming:"القادمة", results:"النتائج", standings:"الترتيب" }, status: { liveCount:"مباشر", syncing:"مزامنة...", updated:"تم التحديث", loading:"جاري التحميل..." }, empty: { noMatch:"لا مباريات.", noLive:"لا مباريات مباشرة.", stdLoad:"يتم التحديث..." }, std: { team:"فريق", played:"لعب", gd:"فارق", pts:"نقاط" }, card: { day:"التاريخ", stadium:"الملعب", upcoming:"قريباً" }, modal: { details:"التفاصيل", events:"أحداث", stats:"إحصائيات", lineups:"التشكيلة", loading:"تحميل...", fail:"خطأ.", goal:"هدف", yellowCard:"بطاقة صفراء", redCard:"بطاقة حمراء" }, inner: { noEvents:"لا أحداث.", noStats:"لا توجد إحصائيات.", noLineups:"التشكيلة غير متوفرة.", bench:"بدلاء", starters:"أساسيون" }, stats: { possession:"استحواذ", shots:"تسديدات", passes:"تمريرات", fouls:"أخطاء", corners:"ركنية" }, settings: { title:"⚙️ إعدادات", lang:"🌍 اللغة", tz:"🕐 التوقيت", refreshMsg:"تم التحديث!" } },
   hi: { flag:"🇮🇳", label:"हिन्दी", tabs: { today:"सभी", live:"🔴 लाइव", upcoming:"आगामी", results:"परिणाम", standings:"अंक तालिका" }, status: { liveCount:"लाइव", syncing:"सिंक कर रहा है...", updated:"अपडेट किया गया", loading:"डेटा लोड हो रहा है..." }, empty: { noMatch:"कोई मैच नहीं।", noLive:"कोई लाइव मैच नहीं।", stdLoad:"अपडेट हो रहा है..." }, std: { team:"टीम", played:"मैच", gd:"गोल अंतर", pts:"अंक" }, card: { day:"दिनांक", stadium:"स्टेडियम", upcoming:"आगामी" }, modal: { details:"विवरण", events:"घटनाएँ", stats:"आंकड़े", lineups:"लाइनअप", loading:"लोड हो रहा है...", fail:"त्रुटि।", goal:"गोल", yellowCard:"पीला कार्ड", redCard:"लाल कार्ड" }, inner: { noEvents:"कोई घटना नहीं।", noStats:"आंकड़े उपलब्ध नहीं।", noLineups:"लाइनअप घोषित नहीं।", bench:"बेंच", starters:"शुरुआती" }, stats: { possession:"कब्ज़ा", shots:"शॉट्स (लक्ष्य पर)", passes:"कुल पास", fouls:"फाउल", corners:"कॉर्नर" }, settings: { title:"⚙️ सेटिंग्स", lang:"🌍 भाषा", tz:"🕐 समय क्षेत्र", refreshMsg:"डेटा अपडेट हुआ!" } }
 };
@@ -260,7 +260,7 @@ const TZS = [
   {label:'Tokyo (JST)', off: 9}
 ];
 // ==========================================
-// 2. DATA FETCHING LOGIC (SAFE OPTIONAL CHAINING)
+// 2. DATA FETCHING LOGIC 
 // ==========================================
 async function fetchAllData() {
   const d = new Date();
@@ -343,7 +343,7 @@ async function fetchStandingsData() {
       });
     }
   } catch(e) { console.error("Error loading standings", e); }
-}
+  }
 // ==========================================
 // 3. MAIN UI RENDER LOGIC
 // ==========================================
@@ -434,9 +434,9 @@ function renderContent() {
       </div>
     `;
   }).join('');
-      }
+}
 // ==========================================
-// 4. MATCH DETAILS MODAL (TINH GỌN SỰ KIỆN - CHIA 2 BÊN)
+// 4. MATCH DETAILS MODAL (TINH GỌN SỰ KIỆN - CĂN TRÁI)
 // ==========================================
 window.showMatchDetail = async function(id) {
   const m = MATCHES.find(x => x.id === id);
@@ -482,11 +482,10 @@ window.showMatchDetail = async function(id) {
     const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary?event=${id}`);
     const summary = await res.json();
 
-    // --- TAB 1: DIỄN BIẾN (TINH GỌN TÊN CẦU THỦ, BÀN THẮNG, THẺ PHẠT) ---
+    // --- TAB 1: DIỄN BIẾN (CĂN TRÁI 100%, THÊM CHÚ THÍCH QUỐC GIA) ---
     let eventsHtml = `<div style="text-align:center;color:var(--muted);font-size:12px;padding:30px;">${t.inner.noEvents}</div>`;
     if(summary.keyEvents && summary.keyEvents.length > 0) {
       
-      // Lọc: Bàn thắng, thẻ vàng, thẻ đỏ
       const matchEvents = summary.keyEvents.filter(evt => {
           const txt = evt.type?.text?.toLowerCase() || '';
           return txt.includes('goal') || txt.includes('yellow') || txt.includes('red');
@@ -496,6 +495,7 @@ window.showMatchDetail = async function(id) {
         eventsHtml = `<div class="timeline-container">` + matchEvents.map(evt => {
           const isHome = evt.team && evt.team.id === m.homeId;
           const alignClass = isHome ? 'home-side' : 'away-side';
+          const teamName = isHome ? m.home : m.away; // Lấy tên đội tuyển
           
           const typeTxt = evt.type?.text?.toLowerCase() || '';
           let icon = '⚽';
@@ -504,7 +504,7 @@ window.showMatchDetail = async function(id) {
           if(typeTxt.includes('yellow')) { icon = '🟨'; eventLabel = t.modal.yellowCard; }
           if(typeTxt.includes('red')) { icon = '🟥'; eventLabel = t.modal.redCard; }
 
-          // Bóc tách tên cầu thủ chính xác
+          // Bóc tách tên cầu thủ
           let playerName = 'Unknown';
           if(Array.isArray(evt.participants) && evt.participants.length > 0 && evt.participants[0]?.athlete) {
               playerName = evt.participants[0].athlete.shortName || evt.participants[0].athlete.displayName;
@@ -518,7 +518,7 @@ window.showMatchDetail = async function(id) {
               <div class="evt-card ${alignClass}">
                 <div class="evt-icon-wrapper">${icon}</div>
                 <div class="evt-main-info">
-                  <div class="evt-p-name">${playerName}</div>
+                  <div class="evt-p-name">${playerName} <span style="font-weight: 500; color: var(--muted); font-size: 11px;">(${teamName})</span></div>
                   <div class="evt-p-action">${eventLabel}</div>
                 </div>
               </div>
@@ -657,7 +657,7 @@ window.switchModalTab = function(tabId, btn) {
   if(scrollArea) scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
 };
 // ==========================================
-// 5. SETTINGS & SWITCH TABS
+// 5. CÀI ĐẶT & CHUYỂN TABS CHÍNH
 // ==========================================
 window.switchTab = function(tab, btn) {
   currTab = tab;
