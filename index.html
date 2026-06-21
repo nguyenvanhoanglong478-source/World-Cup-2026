@@ -13,161 +13,203 @@
   --card:#0f3d22;--live:#e53935;--live-glow:rgba(229,57,53,.3);
   --done:#4caf70;--up:#5b8c71;--border:#1e5434;--text:#d6ead0;
 }
-body{font-family:'Inter',sans-serif;background:var(--pitch);color:var(--text);min-height:100vh;max-width:480px;margin:0 auto;padding-bottom:40px}
+body{font-family:'Inter',sans-serif;background:var(--pitch);color:var(--text);min-height:100vh;max-width:480px;margin:0 auto;padding-bottom:40px; display:flex; flex-direction:column; align-items:center;}
 
-/* HEADER & TABS (Giao diện Mobile Mặc định) */
-header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid var(--border);position:sticky;top:0;z-index:100}
-.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+/* Wrapper căn giữa màn hình */
+#app-container { width: 100%; max-width: 600px; }
+
+/* HEADER & TABS */
+header{background:var(--grass);padding:13px 15px 10px;border-bottom:2px solid var(--border);position:sticky;top:0;z-index:100; width:100%;}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px; max-width:600px; margin-inline:auto;}
 .logo{display:flex;align-items:center;gap:8px}
-.logo-ball{font-size:22px}
-.logo-text h1{font-size:15px;font-weight:900;color:var(--gold);letter-spacing:-.3px;line-height:1}
-.logo-text p{font-size:9px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:1px}
-.header-actions{display:flex;gap:5px}
-.icon-btn{background:var(--turf);border:1px solid var(--border);color:var(--gold);border-radius:8px;padding:6px 9px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:3px;font-weight:600;transition:all .2s;white-space:nowrap}
+.logo-ball{font-size:24px}
+.logo-text h1{font-size:16px;font-weight:900;color:var(--gold);letter-spacing:-.3px;line-height:1}
+.logo-text p{font-size:10px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:1px}
+.header-actions{display:flex;gap:6px}
+.icon-btn{background:var(--turf);border:1px solid var(--border);color:var(--gold);border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:4px;font-weight:600;transition:all .2s;white-space:nowrap}
+.icon-btn:hover{background:#185a36}
 .icon-btn:active{transform:scale(.92)}
 .spin{display:inline-block;line-height:1}
 .spin.go{animation:spin .6s linear}
 @keyframes spin{to{transform:rotate(360deg)}}
-.tabs{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
+
+.tabs-wrapper { max-width:600px; margin: 0 auto; }
+.tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
 .tabs::-webkit-scrollbar{display:none}
-.tab{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s}
+.tab{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s}
+.tab:hover{background:rgba(245,200,66,.1);color:var(--white)}
 .tab.active{background:var(--gold);border-color:var(--gold);color:var(--pitch)}
 
 /* STATUS */
-.status-bar{padding:6px 13px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--grass)}
-.live-indicator{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--live)}
-.live-dot{width:7px;height:7px;background:var(--live);border-radius:50%;animation:pulse 1.5s infinite}
+.status-bar{padding:8px 15px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--grass);width:100%;}
+.status-inner { display:flex; align-items:center; justify-content:space-between; width:100%; max-width:600px; margin:0 auto; }
+.live-indicator{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--live)}
+.live-dot{width:8px;height:8px;background:var(--live);border-radius:50%;animation:pulse 1.5s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 var(--live-glow)}70%{box-shadow:0 0 0 6px transparent}100%{box-shadow:0 0 0 0 transparent}}
-.last-upd{font-size:10px;color:var(--muted)}
+.last-upd{font-size:11px;color:var(--muted)}
 
 /* CONTENT */
-.content{padding:10px 11px}
+.content{padding:12px 15px; width:100%;}
+.matches-grid { display:flex; flex-direction:column; gap:8px;}
 
 /* CÀI ĐẶT MODAL CHUNG */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;align-items:flex-end;justify-content:center}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;align-items:flex-end;justify-content:center; backdrop-filter:blur(3px);}
 .modal-overlay.open{display:flex}
-.modal-box{background:var(--grass);border-radius:18px 18px 0 0;border:1px solid var(--border);border-bottom:none;width:100%;max-width:480px; display:flex; flex-direction:column; overflow:hidden; animation:slideup .25s cubic-bezier(0.2, 0.8, 0.2, 1);}
-@keyframes slideup{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
-.modal-title{font-size:15px;font-weight:800;color:var(--gold);margin-bottom:15px;display:flex;justify-content:space-between;align-items:center}
-.modal-close{background:var(--turf);border:none;color:var(--muted);border-radius:7px;padding:4px 9px;font-size:15px;cursor:pointer}
+.modal-box{background:var(--grass);border-radius:18px 18px 0 0;border:1px solid var(--border);border-bottom:none;width:100%;max-width:480px; display:flex; flex-direction:column; overflow:hidden; animation:slideup .3s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow:0 -10px 40px rgba(0,0,0,0.5);}
+@keyframes slideup{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-title{font-size:16px;font-weight:800;color:var(--gold);margin-bottom:15px;display:flex;justify-content:space-between;align-items:center}
+.modal-close{background:var(--turf);border:none;color:var(--muted);border-radius:8px;padding:6px 12px;font-size:16px;cursor:pointer;transition:all .2s}
+.modal-close:hover{background:var(--card);color:var(--white)}
 
-/* CÀI ĐẶT NGÔN NGỮ */
-.s-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px}
-.s-section{margin-bottom:18px}
-.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.opt-btn{background:var(--turf);border:2px solid var(--border);color:var(--text);border-radius:9px;padding:9px 10px;font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all .15s;width:100%}
+/* CÀI ĐẶT NGÔN NGỮ & MÚI GIỜ (ĐÃ FIX SCROLL) */
+#modal-settings .modal-box {
+  padding: 20px 20px 30px !important;
+  height: auto;
+  max-height: 85vh;
+  overflow-y: auto; /* Đảm bảo modal không bị lẹm trên màn hình nhỏ */
+}
+.s-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.s-section{margin-bottom:20px}
+.opt-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr); /* Ép hiển thị 3 cột cho 3 ngôn ngữ */
+  gap:8px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+.opt-btn{background:var(--turf);border:2px solid var(--border);color:var(--text);border-radius:10px;padding:10px 5px;font-size:13px;font-weight:600;cursor:pointer;text-align:center;transition:all .15s}
+.opt-btn:hover{border-color:#3a8256; color:var(--white)}
 .opt-btn.sel{border-color:var(--gold);color:var(--gold);background:#1a5030}
-.tz-list{display:flex;flex-direction:column;gap:4px;max-height:200px;overflow-y:auto}
-.tz-item{background:var(--turf);border:2px solid var(--border);color:var(--text);border-radius:9px;padding:8px 11px;font-size:12px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
+.tz-list{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  max-height:250px; /* Fix chiều cao để scroll */
+  overflow-y:auto; 
+  padding-right:5px;
+  overscroll-behavior: contain;
+}
+.tz-list::-webkit-scrollbar{width:4px}
+.tz-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.tz-item{background:var(--turf);border:2px solid var(--border);color:var(--text);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all .15s}
+.tz-item:hover{background:#185a36}
 .tz-item.sel{border-color:var(--gold);color:var(--gold)}
 
 /* MATCH CARD */
-.date-header {font-size: 11px; font-weight: 700; color: var(--gold); text-transform: uppercase; margin: 15px 0 8px 5px; letter-spacing: 0.5px;}
-.match-card{background:var(--card);border-radius:13px;border:1px solid var(--border);margin-bottom:7px;overflow:hidden;cursor:pointer;}
-.match-card.live-game{border-color:var(--live);box-shadow:0 0 14px rgba(229,57,53,.18)}
-.match-top{padding:11px 12px 9px}
-.match-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.grp-tag{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
-.s-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px}
+.date-header {font-size: 12px; font-weight: 700; color: var(--gold); text-transform: uppercase; margin: 18px 0 10px 5px; letter-spacing: 0.8px;}
+.match-card{background:var(--card);border-radius:14px;border:1px solid var(--border);margin-bottom:10px;overflow:hidden;cursor:pointer;transition:all .2s; box-shadow:0 4px 10px rgba(0,0,0,0.15)}
+.match-card.live-game{border-color:var(--live);box-shadow:0 0 16px rgba(229,57,53,.2)}
+.match-top{padding:12px 15px 10px}
+.match-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.grp-tag{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.s-tag{font-size:10px;font-weight:700;padding:3px 9px;border-radius:8px; letter-spacing:0.3px}
 .s-tag.live{background:var(--live);color:#fff;animation:blink 1.5s infinite}
 .s-tag.done{background:rgba(76,175,112,.2);color:var(--done)}
 .s-tag.up{background:rgba(91,140,113,.2);color:var(--up)}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.65}}
-.teams-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px}
+.teams-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px}
 .team-home{text-align:right}.team-away{text-align:left}
-.t-flag img {width: 32px; height: 32px; object-fit: contain; margin-bottom: 3px;}
-.t-name{font-size:11px;font-weight:700;color:var(--white);line-height:1.2}
-.score-block{text-align:center}
-.score{font-size:26px;font-weight:900;color:var(--gold);letter-spacing:-1px;line-height:1}
-.m-time{font-size:10px;color:var(--muted);margin-top:3px;font-weight:500}
+.t-flag img {width: 36px; height: 36px; object-fit: contain; margin-bottom: 4px; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))}
+.t-name{font-size:13px;font-weight:700;color:var(--white);line-height:1.2}
+.score-block{text-align:center; padding:0 10px;}
+.score{font-size:28px;font-weight:900;color:var(--gold);letter-spacing:-1px;line-height:1}
+.m-time{font-size:11px;color:var(--muted);margin-top:4px;font-weight:600}
 .m-time.lv{color:var(--live);font-weight:700}
-.match-footer{padding:6px 12px 8px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);background:rgba(0,0,0,.1);gap:5px}
-.venue-txt{font-size:10px;color:var(--muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.match-footer{padding:8px 15px 10px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);background:rgba(0,0,0,.15);gap:5px}
+.venue-txt{font-size:11px;color:var(--muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
 
 /* STANDINGS TABLE */
-.std-card{background:var(--card);border-radius:13px;border:1px solid var(--border);margin-bottom:12px;overflow:hidden}
-.std-hdr{padding:9px 12px;border-bottom:1px solid var(--border); background:rgba(0,0,0,0.15)}
-.std-grp{font-size:13px;font-weight:800;color:var(--gold);text-transform:uppercase;}
+.standings-wrapper { display: grid; grid-template-columns: 1fr; gap: 15px; }
+.std-card{background:var(--card);border-radius:14px;border:1px solid var(--border);overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.15)}
+.std-hdr{padding:10px 15px;border-bottom:1px solid var(--border); background:rgba(0,0,0,0.2)}
+.std-grp{font-size:14px;font-weight:800;color:var(--gold);text-transform:uppercase; letter-spacing:0.5px}
 .std-table{width:100%;border-collapse:collapse}
-.std-table th{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;padding:8px 8px;text-align:center;background:rgba(0,0,0,0.2)}
+.std-table th{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;padding:10px;text-align:center;background:rgba(0,0,0,0.1)}
 .std-table th:first-child{text-align:left}
-.std-table td{font-size:12px;padding:9px 8px;text-align:center;border-top:1px solid rgba(30,84,52,.5)}
+.std-table td{font-size:13px;padding:12px 10px;text-align:center;border-top:1px solid rgba(30,84,52,.5)}
 .std-table td:first-child{text-align:left}
-.tc{display:flex;align-items:center;gap:8px}
-.rn{font-size:10px;color:var(--muted);width:14px;text-align:right}
+.tc{display:flex;align-items:center;gap:10px}
+.rn{font-size:11px;color:var(--muted);width:16px;text-align:right}
 .rn.q{color:var(--done);font-weight:800}
-.pts{font-weight:800;color:var(--gold);font-size:13px;}
+.pts{font-weight:800;color:var(--gold);font-size:14px;}
 
-/* CHI TIẾT TRẬN ĐẤU MODAL */
-#modal-match-wrapper { height: 85vh; }
-.modal-sticky-header { padding: 18px 15px 0; background: var(--grass); border-bottom: 1px solid var(--border); z-index: 10; flex-shrink: 0; }
-.modal-scroll-body { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: calc(30px + env(safe-area-inset-bottom)); position: relative; scroll-behavior: smooth; overscroll-behavior: none; background: var(--grass);}
-.det-flag img {width: 50px; height: 50px; object-fit: contain;}
-.det-teams{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:8px}
+/* MODAL CHI TIẾT TRẬN ĐẤU */
+#modal-match-wrapper { height: 88vh; }
+.modal-sticky-header { padding: 18px 18px 0; background: var(--grass); border-bottom: 1px solid var(--border); z-index: 10; flex-shrink: 0; }
+.modal-scroll-body { 
+  flex: 1; overflow-y: auto; padding: 18px; 
+  padding-bottom: calc(30px + env(safe-area-inset-bottom)); 
+  position: relative; scroll-behavior: smooth; overscroll-behavior: none; background: var(--grass);
+}
+
+.det-flag img {width: 60px; height: 60px; object-fit: contain; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.3))}
+.det-teams{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:10px}
 .det-team{flex:1;text-align:center}
-.det-name{font-size:13px;font-weight:700;color:var(--white);margin-top:4px}
+.det-name{font-size:15px;font-weight:700;color:var(--white);margin-top:6px}
 .det-score-wrap{text-align:center}
-.det-score{font-size:36px;font-weight:900;color:var(--gold);letter-spacing:-2px;line-height:1}
-.det-sub{font-size:11px;color:var(--muted);margin-top:3px}
-.det-sub.lv{color:var(--live);font-weight:700}
-.md-tabs { display: flex; width: 100%; background: rgba(0,0,0,0.15); border-radius: 10px; padding: 4px; margin-bottom: 12px; border: 1px solid var(--border);}
-.md-tab { flex: 1 1 0; text-align: center; padding: 8px 0; font-size: 11px; font-weight: 700; color: var(--muted); cursor: pointer; border-radius: 8px; transition: all 0.2s; white-space: nowrap;}
+.det-score{font-size:42px;font-weight:900;color:var(--gold);letter-spacing:-2px;line-height:1}
+.det-sub{font-size:12px;color:var(--muted);margin-top:5px; font-weight:600}
+.det-sub.lv{color:var(--live);font-weight:800}
+
+/* TABS CANH ĐỀU NHAU 100% */
+.md-tabs { display: flex; width: 100%; background: rgba(0,0,0,0.2); border-radius: 12px; padding: 4px; margin-bottom: 12px; border: 1px solid var(--border);}
+.md-tab { flex: 1 1 0; text-align: center; padding: 10px 0; font-size: 12px; font-weight: 700; color: var(--muted); cursor: pointer; border-radius: 10px; transition: all 0.2s; white-space: nowrap;}
+.md-tab:hover{color:var(--white)}
 .md-tab.active { color: var(--pitch); background: var(--gold); font-weight: 800;}
 .md-content { display: none; }
 .md-content.active { display: block; animation: tabFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 @keyframes tabFadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
+/* Bảo vệ tỷ lệ sơ đồ sân SVG (nếu có) */
+.md-content svg, .lineup-grid svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+
 /* DIỄN BIẾN */
 .timeline-container { position: relative; margin: 10px 5px; padding-left: 35px; border-left: 2px dashed var(--border); }
-.evt-row { position: relative; margin-bottom: 18px; display: flex; align-items: flex-start; }
-.evt-badge-time { position: absolute; left: -47px; top: 2px; width: 24px; height: 24px; background: var(--turf); border: 2px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: var(--gold); z-index: 2; }
+.evt-row { position: relative; margin-bottom: 20px; display: flex; align-items: flex-start; }
+.evt-badge-time { position: absolute; left: -47px; top: 2px; width: 24px; height: 24px; background: var(--turf); border: 2px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: var(--gold); z-index: 2; box-shadow:0 2px 5px rgba(0,0,0,0.3)}
 .evt-badge-time.home-event { border-color: var(--gold); background: #1a5030; }
-.evt-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; flex: 1; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
-.evt-card.home-side { border-left: 4px solid var(--gold); }
-.evt-card.away-side { border-left: 4px solid var(--muted); }
-.evt-icon-wrapper { font-size: 16px; width: 24px; text-align: center; }
+.evt-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 15px; flex: 1; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+.evt-icon-wrapper { font-size: 18px; width: 26px; text-align: center; }
 .evt-main-info { flex: 1; }
-.evt-p-name { font-size: 13px; font-weight: 700; color: var(--white); line-height: 1.3;}
-.evt-p-nation { font-weight: 500; color: var(--muted); font-size: 11px; margin-left: 4px; }
-.evt-p-action { font-size: 11px; color: var(--muted); margin-top: 4px; font-weight: 500; }
+.evt-p-name { font-size: 14px; font-weight: 700; color: var(--white); line-height: 1.4;}
+.evt-p-nation { font-weight: 500; color: var(--muted); font-size: 12px; margin-left: 4px; }
+.evt-p-action { font-size: 12px; color: var(--muted); margin-top: 5px; font-weight: 500; display:flex; align-items:center; gap:5px;}
+.evt-card.home-side { border-left: 5px solid var(--gold); }
+.evt-card.away-side { border-left: 5px solid var(--muted); }
 
-/* THỐNG KÊ & ĐỘI HÌNH */
-.stat-container { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 15px; }
-.stat-item-block { margin-bottom: 16px; }
+/* THỐNG KÊ */
+.stat-container { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; box-shadow:0 4px 10px rgba(0,0,0,0.15)}
+.stat-item-block { margin-bottom: 20px; }
 .stat-item-block:last-child { margin-bottom: 0; }
-.stat-labels-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; margin-bottom: 5px; }
-.stat-v-home { color: var(--gold); font-size: 13px; font-weight: 800; width: 40px; }
-.stat-v-away { color: var(--white); font-size: 13px; width: 40px; text-align: right; }
-.stat-v-lbl { color: var(--text); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; flex: 1; text-align: center; }
-.stat-bar-graph-bg { height: 6px; background: rgba(0,0,0,0.3); border-radius: 3px; display: flex; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
-.stat-bar-fill-home { background: var(--gold); height: 100%; transition: width 0.4s ease; border-radius: 3px 0 0 3px; }
-.stat-bar-fill-away { background: var(--muted); height: 100%; transition: width 0.4s ease; border-radius: 0 3px 3px 0; margin-left: auto; }
-.lineup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.lineup-team-block { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px; }
-.lineup-title-bar { font-size: 11px; font-weight: 800; color: var(--gold); text-align: center; text-transform: uppercase; padding-bottom: 8px; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
-.player-list-item { display: flex; align-items: center; gap: 8px; padding: 6px 4px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.stat-labels-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+.stat-v-home { color: var(--gold); font-size: 14px; font-weight: 800; width: 45px; }
+.stat-v-away { color: var(--white); font-size: 14px; width: 45px; text-align: right; }
+.stat-v-lbl { color: var(--text); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; flex: 1; text-align: center; }
+.stat-bar-graph-bg { height: 8px; background: rgba(0,0,0,0.3); border-radius: 4px; display: flex; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+.stat-bar-fill-home { background: var(--gold); height: 100%; transition: width 0.5s ease; border-radius: 4px 0 0 4px; }
+.stat-bar-fill-away { background: var(--muted); height: 100%; transition: width 0.5s ease; border-radius: 0 4px 4px 0; margin-left: auto; }
+
+/* ĐỘI HÌNH */
+.lineup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.lineup-team-block { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 15px; box-shadow:0 4px 10px rgba(0,0,0,0.15)}
+.lineup-title-bar { font-size: 12px; font-weight: 800; color: var(--gold); text-align: center; text-transform: uppercase; padding-bottom: 10px; border-bottom: 1px solid var(--border); margin-bottom: 12px; letter-spacing:0.5px}
+.player-list-item { display: flex; align-items: center; gap: 10px; padding: 8px 4px; border-bottom: 1px solid rgba(255,255,255,0.03); }
 .player-list-item:last-child { border-bottom: none; }
-.player-jersey-circle { width: 20px; height: 20px; background: var(--turf); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; color: var(--gold); flex-shrink: 0; }
-.player-name-txt { font-size: 11px; font-weight: 600; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
-.bench-divider-lbl { text-align: center; font-size: 9px; font-weight: 700; color: var(--muted); text-transform: uppercase; margin: 12px 0 8px; padding: 2px 0; background: rgba(0,0,0,0.15); border-radius: 4px; letter-spacing: 0.5px; }
+.player-jersey-circle { width: 24px; height: 24px; background: var(--turf); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: var(--gold); flex-shrink: 0; box-shadow:0 2px 4px rgba(0,0,0,0.2)}
+.player-name-txt { font-size: 12px; font-weight: 600; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
+.bench-divider-lbl { text-align: center; font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; margin: 15px 0 10px; padding: 4px 0; background: rgba(0,0,0,0.2); border-radius: 6px; letter-spacing: 0.8px; }
 
 /* TOAST */
-.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--gold);border:1px solid var(--gold);border-radius:12px;padding:12px 20px;font-size:13px;font-weight:800;color:var(--pitch);z-index:999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;max-width:320px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.5)}
+.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gold);border:1px solid var(--gold);border-radius:12px;padding:12px 24px;font-size:14px;font-weight:800;color:var(--pitch);z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;text-align:center;box-shadow:0 6px 20px rgba(0,0,0,0.4)}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
 
 /* ====================================================================================
-   YÊU CẦU 1: CHẾ ĐỘ MÁY TÍNH (RESPONSIVE DESKTOP >= 1024px)
-   LƯU Ý: Tuyệt đối không thay đổi JS hay cấu trúc HTML, chỉ dùng CSS overrides.
+   CHẾ ĐỘ MÁY TÍNH (RESPONSIVE DESKTOP >= 1024px)
    ==================================================================================== */
 @media (min-width: 1024px) {
-  /* Nền tối bao bọc website bên ngoài */
-  body {
-    max-width: 100%;
-    background-color: #05140a; 
-  }
-  
-  /* YÊU CẦU 4: Toàn bộ container max 1400px, căn giữa */
+  /* Toàn bộ container max 1400px, căn giữa */
+  body { max-width: 100%; background-color: #05140a; }
   #app-container { 
     max-width: 1400px; 
     margin: 0 auto; 
@@ -179,7 +221,7 @@ header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid va
     align-items: center;
   }
 
-  /* YÊU CẦU 3: Header dàn ngang 1 dòng (Logo - Tabs - Nút bấm) */
+  /* Header dàn ngang 1 dòng */
   header { 
     display: flex; 
     flex-direction: row;
@@ -189,35 +231,14 @@ header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid va
     width: 100%;
     border-bottom: 1px solid var(--border);
   }
-  /* Phá vỡ box-model của header-top để các thành phần con đứng độc lập trong Flex Header */
   .header-top { display: contents; }
   .logo { order: 1; flex: 1; }
-  .tabs-wrapper { 
-    order: 2; 
-    flex: 2; 
-    display: flex; 
-    justify-content: center; 
-  }
-  .tabs { 
-    gap: 15px; 
-    overflow: visible;
-  }
-  .tab {
-    padding: 10px 24px;
-    font-size: 13px;
-    border-radius: 25px;
-  }
-  .tab:hover {
-    background: rgba(245, 200, 66, 0.1);
-    color: var(--gold);
-  }
-  .header-actions { 
-    order: 3; 
-    flex: 1; 
-    justify-content: flex-end; 
-  }
+  .tabs-wrapper { order: 2; flex: 2; display: flex; justify-content: center; }
+  .tabs { gap: 15px; overflow: visible;}
+  .tab { padding: 10px 24px; font-size: 13px; border-radius: 25px; }
+  .header-actions { order: 3; flex: 1; justify-content: flex-end; }
 
-  /* Thanh trạng thái nhỏ gọn căn giữa */
+  /* Thanh trạng thái */
   .status-bar {
     width: 100%;
     max-width: 880px; 
@@ -226,7 +247,7 @@ header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid va
     border-bottom: 1px solid rgba(255,255,255,0.05);
   }
 
-  /* YÊU CẦU 2: Cột giữa (chính) căn giữa, max-width ~800px (Giới hạn khoảng 700px-800px) */
+  /* Cột giữa (chính) căn giữa */
   .content { 
     width: 100%;
     padding: 25px 20px; 
@@ -234,7 +255,7 @@ header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid va
     justify-content: center;
   }
 
-  /* YÊU CẦU 5: Match card hiển thị dạng Grid 2 cột, padding và font to hơn */
+  /* Match card hiển thị dạng Grid 2 cột */
   .matches-grid { 
     display: grid; 
     grid-template-columns: repeat(2, 1fr); 
@@ -243,23 +264,14 @@ header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid va
     width: 100%;
     max-width: 800px; 
   }
-  .date-header { 
-    grid-column: 1 / -1; 
-    font-size: 16px; 
-    padding-bottom: 8px;
-    margin-top: 10px;
-    border-bottom: 2px solid var(--border); 
-  }
-  .match-card {
-    margin-bottom: 0; 
-    border-radius: 16px;
-  }
+  .date-header { grid-column: 1 / -1; font-size: 16px; padding-bottom: 8px; margin-top: 10px; border-bottom: 2px solid var(--border); }
+  .match-card { margin-bottom: 0; border-radius: 16px; }
   .match-top { padding: 18px 20px; }
   .t-name { font-size: 15px; }
   .score { font-size: 34px; }
   .m-time { font-size: 12px; }
 
-  /* Bảng điểm (Standings) chia 2 cột */
+  /* Bảng điểm chia 2 cột */
   .standings-wrapper { 
     display: grid;
     grid-template-columns: repeat(2, 1fr); 
@@ -268,71 +280,50 @@ header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid va
     max-width: 900px;
   }
 
-  /* YÊU CẦU 6: Settings Modal dạng Centered Popup, max-width 480px */
+  /* Modal Settings Desktop */
   .modal-overlay { align-items: center; padding: 20px; backdrop-filter: blur(5px); }
   .modal-box { 
     margin: auto; 
     border-radius: 20px; 
     border: 1px solid var(--border); 
-    max-height: 85vh;
     animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
-  
   #modal-settings .modal-box {
     max-width: 480px; 
     padding: 30px !important;
-    height: auto;
   }
-  
-  /* Match Detail Modal rộng hơn, chia làm 2 cột */
+
+  /* FIX 1: Modal Chi tiết trận đấu CENTERED, max-width 700px */
   #modal-match-wrapper { 
-    max-width: 960px; 
-    height: 80vh; 
+    max-width: 700px; 
+    height: 85vh; 
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
   }
-  .modal-sticky-header {
-    padding: 25px 30px 0;
-  }
-  .det-score { font-size: 48px; }
-  .det-name { font-size: 16px; }
+  .modal-sticky-header { padding: 25px 40px 0; }
+  .det-score { font-size: 50px; }
+  .det-name { font-size: 18px; }
+  .det-flag img { width: 70px; height: 70px; }
 
-  /* Bố cục bên trong Chi tiết trận đấu: Tự động chia 2 cột */
+  /* Canh giữa và tối ưu khoảng cách nội dung */
   #modal-scroll-body { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 30px; 
-    align-items: start;
-    padding: 30px;
+    display: block; /* Hủy grid gây vỡ layout */
+    padding: 20px 40px 40px; 
   }
-  .md-tabs { display: none; } /* Ẩn tabs trên PC vì sẽ hiển thị hết các cột */
-  .md-content { display: block !important; animation: none; }
-  #md-events { grid-column: 1; grid-row: 1 / span 2; }
-  #md-stats { grid-column: 2; margin-bottom: 0; }
-  #md-lineups { grid-column: 2; }
+  .md-tabs { display: flex; margin-bottom: 20px; } /* Hiển thị Tabs trên Desktop */
+  .md-content { display: none; }
+  .md-content.active { display: block; }
 }
 
-/* Keyframes cho Popup Settings & Match Details xuất hiện từ giữa */
-@keyframes zoomIn { 
-  from { transform: scale(0.95); opacity: 0; } 
-  to { transform: scale(1); opacity: 1; } 
-}
+@keyframes zoomIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-/* YÊU CẦU 9: Thêm hover effect cho match-card trên desktop */
+/* Hover effects (chỉ cho Desktop có chuột) */
 @media (min-width: 1024px) and (hover: hover) {
-  .match-card {
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  }
-  .match-card:hover {
-    transform: scale(1.02);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    border-color: var(--gold);
-    z-index: 2;
-  }
-  .icon-btn:hover {
-    background: #185a36;
-  }
-  .tz-item:hover {
-    background: #185a36;
-  }
+  .match-card { transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
+  .match-card:hover { transform: scale(1.02); box-shadow: 0 10px 25px rgba(0,0,0,0.4); border-color: var(--gold); z-index: 2; }
+  .icon-btn:hover { background: #185a36; }
+  .tz-item:hover { background: #185a36; }
 }
 </style>
 </head>
@@ -377,7 +368,7 @@ header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid va
 </div>
 
 <div class="modal-overlay" id="modal-settings" onclick="bgClose(event)">
-  <div class="modal-box" style="padding:18px 15px 36px; background: var(--grass); height:auto;">
+  <div class="modal-box">
     <div class="modal-title"><span id="set-title">⚙️ Settings</span><button class="modal-close" onclick="closeModal('modal-settings')">✕</button></div>
     <div class="s-section">
       <div class="s-label" id="set-lang">🌍 Language</div>
@@ -399,22 +390,12 @@ header{background:var(--grass);padding:13px 13px 10px;border-bottom:2px solid va
 
 <script>
 // ==========================================
-// 1. DICTIONARY (BỘ TỪ ĐIỂN ĐA NGÔN NGỮ ĐÃ ĐỒNG BỘ)
+// 1. DICTIONARY (CHỈ GIỮ LẠI 3 NGÔN NGỮ)
 // ==========================================
 const LANGS = {
-  vi: { flag:"🇻🇳", label:"Tiếng Việt", tabs: { today:"Tất cả", live:"🔴 Trực tiếp", upcoming:"Sắp tới", results:"Kết quả", standings:"Bảng điểm" }, status: { liveCount:"Trực tiếp", syncing:"Đang đồng bộ...", updated:"Cập nhật", loading:"Đang tải dữ liệu giải đấu..." }, empty: { noMatch:"Hiện chưa có trận đấu nào.", noLive:"Hiện không có trận đấu nào đang diễn ra.", stdLoad:"Bảng điểm đang được cập nhật..." }, std: { team:"Đội tuyển", played:"Trận", gd:"H/S", pts:"Điểm" }, card: { day:"Ngày", stadium:"Sân vận động", upcoming:"SẮP ĐÁ" }, modal: { details:"Chi tiết Trận đấu", events:"Diễn biến", stats:"Thống kê", lineups:"Đội hình", loading:"Đang lấy dữ liệu chi tiết...", fail:"Không thể tải dữ liệu.", goal:"Bàn thắng", yellowCard:"Thẻ vàng", redCard:"Thẻ đỏ", eventsHeader: "⚡ Diễn biến chính", statsHeader: "📊 Thống kê", lineupsHeader: "👕 Đội hình" }, inner: { noEvents:"Chưa có diễn biến nào.", noStats:"Dữ liệu thống kê chưa sẵn sàng.", noLineups:"Đội hình chưa được công bố.", bench:"Dự bị", starters:"Đá chính" }, stats: { possession:"Kiểm soát bóng", shots:"Sút bóng (Trúng đích)", passes:"Tổng đường chuyền", fouls:"Phạm lỗi", corners:"Phạt góc" }, settings: { title:"⚙️ Cài đặt", lang:"🌍 Ngôn ngữ", tz:"🕐 Múi giờ", refreshMsg:"Đã làm mới dữ liệu hệ thống!" } },
   en: { flag:"🇬🇧", label:"English", tabs: { today:"All", live:"🔴 Live", upcoming:"Upcoming", results:"Results", standings:"Standings" }, status: { liveCount:"Live", syncing:"Syncing...", updated:"Updated", loading:"Loading Tournament Data..." }, empty: { noMatch:"No matches available.", noLive:"No live matches at the moment.", stdLoad:"Standings are being updated..." }, std: { team:"Team", played:"P", gd:"GD", pts:"Pts" }, card: { day:"Date", stadium:"Stadium", upcoming:"UPCOMING" }, modal: { details:"Match Details", events:"Events", stats:"Stats", lineups:"Lineups", loading:"Fetching match details...", fail:"Could not load details.", goal:"Goal", yellowCard:"Yellow Card", redCard:"Red Card", eventsHeader: "⚡ Key Events", statsHeader: "📊 Match Stats", lineupsHeader: "👕 Lineups" }, inner: { noEvents:"No key events yet.", noStats:"Statistics not available.", noLineups:"Lineups not announced.", bench:"Bench", starters:"Starters" }, stats: { possession:"Possession", shots:"Shots (On Target)", passes:"Total Passes", fouls:"Fouls Committed", corners:"Won Corners" }, settings: { title:"⚙️ Settings", lang:"🌍 Language", tz:"🕐 Time Zone", refreshMsg:"Data refreshed!" } },
-  es: { flag:"🇪🇸", label:"Español", tabs: { today:"Todo", live:"🔴 En vivo", upcoming:"Próximos", results:"Resultados", standings:"Clasificación" }, status: { liveCount:"En vivo", syncing:"Sincronizando...", updated:"Actualizado", loading:"Cargando datos..." }, empty: { noMatch:"No hay partidos disponibles.", noLive:"No hay partidos en vivo.", stdLoad:"Actualizando..." }, std: { team:"Equipo", played:"PJ", gd:"DG", pts:"Pts" }, card: { day:"Fecha", stadium:"Estadio", upcoming:"PRÓXIMO" }, modal: { details:"Detalles del Partido", events:"Eventos", stats:"Estadísticas", lineups:"Alineaciones", loading:"Obteniendo...", fail:"Error al cargar.", goal:"Gol", yellowCard:"Tarjeta Amarilla", redCard:"Tarjeta Roja", eventsHeader: "⚡ Eventos", statsHeader: "📊 Estadísticas", lineupsHeader: "👕 Alineaciones" }, inner: { noEvents:"No hay eventos.", noStats:"No hay estadísticas.", noLineups:"Sin alineación.", bench:"Banquillo", starters:"Titulares" }, stats: { possession:"Posesión", shots:"Tiros (A puerta)", passes:"Pases Totales", fouls:"Faltas", corners:"Córners" }, settings: { title:"⚙️ Ajustes", lang:"🌍 Idioma", tz:"🕐 Zona Horaria", refreshMsg:"¡Actualizado!" } },
-  fr: { flag:"🇫🇷", label:"Français", tabs: { today:"Tout", live:"🔴 En direct", upcoming:"À venir", results:"Résultats", standings:"Classement" }, status: { liveCount:"En direct", syncing:"Synchro...", updated:"Mis à jour", loading:"Chargement..." }, empty: { noMatch:"Aucun match.", noLive:"Aucun match en direct.", stdLoad:"Mise à jour..." }, std: { team:"Équipe", played:"J", gd:"DB", pts:"Pts" }, card: { day:"Date", stadium:"Stade", upcoming:"À VENIR" }, modal: { details:"Détails du Match", events:"Événements", stats:"Stats", lineups:"Compos", loading:"Chargement...", fail:"Erreur.", goal:"But", yellowCard:"Carton Jaune", redCard:"Carton Rouge", eventsHeader: "⚡ Événements", statsHeader: "📊 Stats", lineupsHeader: "👕 Compos" }, inner: { noEvents:"Aucun événement.", noStats:"Pas de stats.", noLineups:"Pas de compos.", bench:"Remplaçants", starters:"Titulaires" }, stats: { possession:"Possession", shots:"Tirs (Cadrés)", passes:"Passes", fouls:"Fautes", corners:"Corners" }, settings: { title:"⚙️ Paramètres", lang:"🌍 Langue", tz:"🕐 Fuseau", refreshMsg:"Actualisé!" } },
-  de: { flag:"🇩🇪", label:"Deutsch", tabs: { today:"Heute", live:"🔴 Live", upcoming:"Kommende", results:"Ergebnisse", standings:"Tabelle" }, status: { liveCount:"Live", syncing:"Lade...", updated:"Aktualisiert", loading:"Lade Daten..." }, empty: { noMatch:"Keine Spiele.", noLive:"Keine Live-Spiele.", stdLoad:"Lade Tabelle..." }, std: { team:"Team", played:"Sp", gd:"TD", pts:"Pkt" }, card: { day:"Datum", stadium:"Stadion", upcoming:"KOMMEND" }, modal: { details:"Details", events:"Ereignisse", stats:"Statistiken", lineups:"Aufstellung", loading:"Lade Details...", fail:"Fehler.", goal:"Tor", yellowCard:"Gelbe Karte", redCard:"Rote Karte", eventsHeader: "⚡ Ereignisse", statsHeader: "📊 Statistiken", lineupsHeader: "👕 Aufstellung" }, inner: { noEvents:"Keine Ereignisse.", noStats:"Keine Statistiken.", noLineups:"Keine Aufstellung.", bench:"Bank", starters:"Startelf" }, stats: { possession:"Ballbesitz", shots:"Schüsse (Aufs Tor)", passes:"Pässe", fouls:"Fouls", corners:"Ecken" }, settings: { title:"⚙️ Einstellungen", lang:"🌍 Sprache", tz:"🕐 Zeitzone", refreshMsg:"Aktualisiert!" } },
-  it: { flag:"🇮🇹", label:"Italiano", tabs: { today:"Oggi", live:"🔴 Live", upcoming:"Prossime", results:"Risultati", standings:"Classifica" }, status: { liveCount:"Live", syncing:"Sincro...", updated:"Aggiornato", loading:"Caricamento..." }, empty: { noMatch:"Nessuna partita.", noLive:"Nessun live.", stdLoad:"Aggiornamento..." }, std: { team:"Squadra", played:"G", gd:"DR", pts:"Pti" }, card: { day:"Data", stadium:"Stadio", upcoming:"IN ARRIVO" }, modal: { details:"Dettagli", events:"Eventi", stats:"Statistiche", lineups:"Formazioni", loading:"Caricamento...", fail:"Errore.", goal:"Gol", yellowCard:"Cartellino Giallo", redCard:"Cartellino Rosso", eventsHeader: "⚡ Eventi", statsHeader: "📊 Statistiche", lineupsHeader: "👕 Formazioni" }, inner: { noEvents:"Nessun evento.", noStats:"Nessuna statistica.", noLineups:"Nessuna formazione.", bench:"Panchina", starters:"Titolari" }, stats: { possession:"Possesso", shots:"Tiri (In porta)", passes:"Passaggi", fouls:"Falli", corners:"Angoli" }, settings: { title:"⚙️ Impostazioni", lang:"🌍 Lingua", tz:"🕐 Fuso Orario", refreshMsg:"Aggiornato!" } },
-  nl: { flag:"🇳🇱", label:"Nederlands", tabs: { today:"Vandaag", live:"🔴 Live", upcoming:"Aankomend", results:"Uitslagen", standings:"Stand" }, status: { liveCount:"Live", syncing:"Laden...", updated:"Bijgewerkt", loading:"Gegevens laden..." }, empty: { noMatch:"Geen wedstrijden.", noLive:"Geen live.", stdLoad:"Stand wordt geladen..." }, std: { team:"Team", played:"GS", gd:"DS", pts:"Pnt" }, card: { day:"Datum", stadium:"Stadion", upcoming:"AANKOMEND" }, modal: { details:"Details", events:"Gebeurtenissen", stats:"Statistieken", lineups:"Opstellingen", loading:"Laden...", fail:"Fout.", goal:"Doelpunt", yellowCard:"Gele Kaart", redCard:"Rode Kaart", eventsHeader: "⚡ Gebeurtenissen", statsHeader: "📊 Statistieken", lineupsHeader: "👕 Opstellingen" }, inner: { noEvents:"Geen gebeurtenissen.", noStats:"Geen statistieken.", noLineups:"Geen opstellingen.", bench:"Bank", starters:"Basis" }, stats: { possession:"Balbezit", shots:"Schoten (Op doel)", passes:"Passes", fouls:"Overtredingen", corners:"Hoekschoppen" }, settings: { title:"⚙️ Instellingen", lang:"🌍 Taal", tz:"🕐 Tijdzone", refreshMsg:"Bijgewerkt!" } },
-  pt: { flag:"🇧🇷", label:"Português", tabs: { today:"Hoje", live:"🔴 Ao vivo", upcoming:"Próximos", results:"Resultados", standings:"Classificação" }, status: { liveCount:"Ao vivo", syncing:"Sincronizando...", updated:"Atualizado", loading:"Carregando..." }, empty: { noMatch:"Sem jogos.", noLive:"Sem jogos ao vivo.", stdLoad:"Atualizando..." }, std: { team:"Time", played:"J", gd:"SG", pts:"Pts" }, card: { day:"Data", stadium:"Estádio", upcoming:"EM BREVE" }, modal: { details:"Detalhes", events:"Eventos", stats:"Estatísticas", lineups:"Escalações", loading:"Carregando...", fail:"Erro.", goal:"Gol", yellowCard:"Cartão Amarelo", redCard:"Cartão Vermelho", eventsHeader: "⚡ Eventos", statsHeader: "📊 Estatísticas", lineupsHeader: "👕 Escalações" }, inner: { noEvents:"Nenhum evento.", noStats:"Sem estatísticas.", noLineups:"Sem escalações.", bench:"Banco", starters:"Titulares" }, stats: { possession:"Posse", shots:"Chutes (No gol)", passes:"Passes", fouls:"Faltas", corners:"Escanteios" }, settings: { title:"⚙️ Configurações", lang:"🌍 Idioma", tz:"🕐 Fuso Horário", refreshMsg:"Atualizado!" } },
-  zh: { flag:"🇨🇳", label:"中文", tabs: { today:"全部", live:"🔴 直播", upcoming:"即将开始", results:"结果", standings:"积分榜" }, status: { liveCount:"直播", syncing:"同步中...", updated:"已更新", loading:"正在加载数据..." }, empty: { noMatch:"暂无比赛。", noLive:"当前无直播比赛。", stdLoad:"积分榜更新中..." }, std: { team:"球队", played:"场", gd:"净胜", pts:"积分" }, card: { day:"日期", stadium:"体育场", upcoming:"即将开始" }, modal: { details:"比赛详情", events:"事件", stats:"统计", lineups:"阵容", loading:"正在获取...", fail:"无法加载。", goal:"进球", yellowCard:"黄牌", redCard:"红牌", eventsHeader: "⚡ 关键事件", statsHeader: "📊 比赛统计", lineupsHeader: "👕 球队阵容" }, inner: { noEvents:"暂无事件。", noStats:"统计不可用。", noLineups:"阵容未公布。", bench:"替补", starters:"首发" }, stats: { possession:"控球率", shots:"射门 (射正)", passes:"总传球", fouls:"犯规", corners:"角球" }, settings: { title:"⚙️ 设置", lang:"🌍 语言", tz:"🕐 时区", refreshMsg:"数据已刷新！" } },
-  ja: { flag:"🇯🇵", label:"日本語", tabs: { today:"今日", live:"🔴 ライブ", upcoming:"予定", results:"結果", standings:"順位表" }, status: { liveCount:"ライブ", syncing:"同期中...", updated:"更新済み", loading:"ロード中..." }, empty: { noMatch:"試合なし。", noLive:"ライブなし。", stdLoad:"順位表を更新中..." }, std: { team:"チーム", played:"試", gd:"差", pts:"点" }, card: { day:"日付", stadium:"スタジアム", upcoming:"予定" }, modal: { details:"詳細", events:"イベント", stats:"統計", lineups:"スタメン", loading:"詳細を取得中...", fail:"エラー。", goal:"ゴール", yellowCard:"イエローカード", redCard:"レッドカード", eventsHeader: "⚡ イベント", statsHeader: "📊 統計", lineupsHeader: "👕 スタメン" }, inner: { noEvents:"イベントなし。", noStats:"統計なし。", noLineups:"ラインナップ未発表。", bench:"ベンチ", starters:"スタメン" }, stats: { possession:"支配率", shots:"シュート (枠内)", passes:"パス", fouls:"ファウル", corners:"コーナー" }, settings: { title:"⚙️ 設定", lang:"🌍 言語", tz:"🕐 タイムゾーン", refreshMsg:"更新しました！" } },
-  ko: { flag:"🇰🇷", label:"한국어", tabs: { today:"오늘", live:"🔴 라이브", upcoming:"예정", results:"결과", standings:"순위표" }, status: { liveCount:"라이브", syncing:"동기화 중...", updated:"업데이트 됨", loading:"로딩 중..." }, empty: { noMatch:"경기 없음.", noLive:"라이브 경기 없음.", stdLoad:"순위표 업데이트 중..." }, std: { team:"팀", played:"전", gd:"득실", pts:"승점" }, card: { day:"날짜", stadium:"경기장", upcoming:"예정" }, modal: { details:"세부정보", events:"이벤트", stats:"통계", lineups:"라인업", loading:"세부정보 로드 중...", fail:"오류 발생.", goal:"골", yellowCard:"경고", redCard:"퇴장", eventsHeader: "⚡ 주요 이벤트", statsHeader: "📊 경기 통계", lineupsHeader: "👕 라인업" }, inner: { noEvents:"이벤트 없음.", noStats:"통계 없음.", noLineups:"라인업 미발표.", bench:"벤치", starters:"선발" }, stats: { possession:"점유율", shots:"슈팅 (유효)", passes:"패스", fouls:"파울", corners:"코너킥" }, settings: { title:"⚙️ 설정", lang:"🌍 언어", tz:"🕐 시간대", refreshMsg:"업데이트 완료!" } },
-  ar: { flag:"🇸🇦", label:"العربية", tabs: { today:"الكل", live:"🔴 مباشر", upcoming:"القادمة", results:"النتائج", standings:"الترتيب" }, status: { liveCount:"مباشر", syncing:"مزامنة...", updated:"تم التحديث", loading:"جاري التحميل..." }, empty: { noMatch:"لا مباريات.", noLive:"لا مباريات مباشرة.", stdLoad:"يتم التحديث..." }, std: { team:"فريق", played:"لعب", gd:"فارق", pts:"نقاط" }, card: { day:"التاريخ", stadium:"الملعب", upcoming:"قريباً" }, modal: { details:"التفاصيل", events:"أحداث", stats:"إحصائيات", lineups:"التشكيلة", loading:"تحميل...", fail:"خطأ.", goal:"هدف", yellowCard:"بطاقة صفراء", redCard:"بطاقة حمراء", eventsHeader: "⚡ أحداث", statsHeader: "📊 إحصائيات", lineupsHeader: "👕 التشكيلة" }, inner: { noEvents:"لا أحداث.", noStats:"لا توجد إحصائيات.", noLineups:"التشكيلة غير متوفرة.", bench:"بدلاء", starters:"أساسيون" }, stats: { possession:"استحواذ", shots:"تسديدات", passes:"تمريرات", fouls:"أخطاء", corners:"ركنية" }, settings: { title:"⚙️ إعدادات", lang:"🌍 اللغة", tz:"🕐 التوقيت", refreshMsg:"تم التحديث!" } },
-  hi: { flag:"🇮🇳", label:"हिन्दी", tabs: { today:"सभी", live:"🔴 लाइव", upcoming:"आगामी", results:"परिणाम", standings:"अंक तालिका" }, status: { liveCount:"लाइव", syncing:"सिंक कर रहा है...", updated:"अपडेट किया गया", loading:"डेटा लोड हो रहा है..." }, empty: { noMatch:"कोई मैच नहीं।", noLive:"कोई लाइव मैच नहीं।", stdLoad:"अपडेट हो रहा है..." }, std: { team:"टीम", played:"मैच", gd:"गोल अंतर", pts:"अंक" }, card: { day:"दिनांक", stadium:"स्टेडियम", upcoming:"आगामी" }, modal: { details:"विवरण", events:"घटनाएँ", stats:"आंकड़े", lineups:"लाइनअप", loading:"लोड हो रहा है...", fail:"त्रुटि।", goal:"गोल", yellowCard:"पीला कार्ड", redCard:"लाल कार्ड", eventsHeader: "⚡ प्रमुख घटनाएँ", statsHeader: "📊 आँकड़े", lineupsHeader: "👕 लाइनअप" }, inner: { noEvents:"कोई घटना नहीं।", noStats:"आंकड़े उपलब्ध नहीं।", noLineups:"लाइनअप घोषित नहीं।", bench:"बेंच", starters:"शुरुआती" }, stats: { possession:"कब्ज़ा", shots:"शॉट्स (लक्ष्य पर)", passes:"कुल पास", fouls:"फाउल", corners:"कॉर्नर" }, settings: { title:"⚙️ सेटिंग्स", lang:"🌍 भाषा", tz:"🕐 समय क्षेत्र", refreshMsg:"डेटा अपडेट हुआ!" } }
+  vi: { flag:"🇻🇳", label:"Tiếng Việt", tabs: { today:"Tất cả", live:"🔴 Trực tiếp", upcoming:"Sắp tới", results:"Kết quả", standings:"Bảng điểm" }, status: { liveCount:"Trực tiếp", syncing:"Đang đồng bộ...", updated:"Cập nhật", loading:"Đang tải dữ liệu giải đấu..." }, empty: { noMatch:"Hiện chưa có trận đấu nào.", noLive:"Hiện không có trận đấu nào đang diễn ra.", stdLoad:"Bảng điểm đang được cập nhật..." }, std: { team:"Đội tuyển", played:"Trận", gd:"H/S", pts:"Điểm" }, card: { day:"Ngày", stadium:"Sân vận động", upcoming:"SẮP ĐÁ" }, modal: { details:"Chi tiết Trận đấu", events:"Diễn biến", stats:"Thống kê", lineups:"Đội hình", loading:"Đang lấy dữ liệu chi tiết...", fail:"Không thể tải dữ liệu.", goal:"Bàn thắng", yellowCard:"Thẻ vàng", redCard:"Thẻ đỏ", eventsHeader: "⚡ Diễn biến chính", statsHeader: "📊 Thống kê", lineupsHeader: "👕 Đội hình" }, inner: { noEvents:"Chưa có diễn biến nào.", noStats:"Dữ liệu thống kê chưa sẵn sàng.", noLineups:"Đội hình chưa được công bố.", bench:"Dự bị", starters:"Đá chính" }, stats: { possession:"Kiểm soát bóng", shots:"Sút bóng (Trúng đích)", passes:"Tổng đường chuyền", fouls:"Phạm lỗi", corners:"Phạt góc" }, settings: { title:"⚙️ Cài đặt", lang:"🌍 Ngôn ngữ", tz:"🕐 Múi giờ", refreshMsg:"Đã làm mới dữ liệu hệ thống!" } },
+  es: { flag:"🇪🇸", label:"Español", tabs: { today:"Todo", live:"🔴 En vivo", upcoming:"Próximos", results:"Resultados", standings:"Clasificación" }, status: { liveCount:"En vivo", syncing:"Sincronizando...", updated:"Actualizado", loading:"Cargando datos..." }, empty: { noMatch:"No hay partidos disponibles.", noLive:"No hay partidos en vivo.", stdLoad:"Actualizando..." }, std: { team:"Equipo", played:"PJ", gd:"DG", pts:"Pts" }, card: { day:"Fecha", stadium:"Estadio", upcoming:"PRÓXIMO" }, modal: { details:"Detalles del Partido", events:"Eventos", stats:"Estadísticas", lineups:"Alineaciones", loading:"Obteniendo...", fail:"Error al cargar.", goal:"Gol", yellowCard:"Tarjeta Amarilla", redCard:"Tarjeta Roja", eventsHeader: "⚡ Eventos", statsHeader: "📊 Estadísticas", lineupsHeader: "👕 Alineaciones" }, inner: { noEvents:"No hay eventos.", noStats:"No hay estadísticas.", noLineups:"Sin alineación.", bench:"Banquillo", starters:"Titulares" }, stats: { possession:"Posesión", shots:"Tiros (A puerta)", passes:"Pases Totales", fouls:"Faltas", corners:"Córners" }, settings: { title:"⚙️ Ajustes", lang:"🌍 Idioma", tz:"🕐 Zona Horaria", refreshMsg:"¡Actualizado!" } }
 };
 
 let MATCHES = []; 
@@ -432,7 +413,7 @@ const TZS = [
 ];
 
 // ==========================================
-// 2. DATA FETCHING LOGIC 
+// 2. DATA FETCHING LOGIC
 // ==========================================
 async function fetchAllData() {
   const d = new Date();
@@ -614,7 +595,7 @@ function renderContent() {
 }
 
 // ==========================================
-// 4. MATCH DETAILS MODAL (TINH GỌN SỰ KIỆN - CĂN TRÁI)
+// 4. MATCH DETAILS MODAL 
 // ==========================================
 window.showMatchDetail = async function(id) {
   const m = MATCHES.find(x => x.id === id);
@@ -670,9 +651,7 @@ window.showMatchDetail = async function(id) {
       });
       
       if(matchEvents.length > 0) {
-        eventsHtml = `<div style="display:none;" class="pc-only-title"><h3 style="color:var(--gold); font-size:16px; margin-bottom:15px; border-bottom:1px solid var(--border); padding-bottom:10px;">${t.modal.eventsHeader}</h3></div>`;
-        
-        eventsHtml += `<div class="timeline-container">` + matchEvents.map(evt => {
+        eventsHtml = `<div class="timeline-container">` + matchEvents.map(evt => {
           const isHome = evt.team && evt.team.id === m.homeId;
           const alignClass = isHome ? 'home-side' : 'away-side';
           const teamName = isHome ? m.home : m.away; 
@@ -743,8 +722,7 @@ window.showMatchDetail = async function(id) {
         { label: t.stats.corners, hVal: getStat(homeStats, 'wonCorners'), aVal: getStat(awayStats, 'wonCorners') }
       ];
 
-      statsHtml = `<div style="display:none;" class="pc-only-title"><h3 style="color:var(--gold); font-size:16px; margin-bottom:15px; border-bottom:1px solid var(--border); padding-bottom:10px;">${t.modal.statsHeader}</h3></div>`;
-      statsHtml += `<div class="stat-container">` + statItems.map(item => {
+      statsHtml = `<div class="stat-container">` + statItems.map(item => {
         let hNum = parseInt(item.isShots ? hShots : item.hVal) || 0;
         let aNum = parseInt(item.isShots ? aShots : item.aVal) || 0;
         let total = hNum + aNum || 1;
@@ -803,8 +781,7 @@ window.showMatchDetail = async function(id) {
         `;
       };
 
-      lineupsHtml = `<div style="display:none;" class="pc-only-title"><h3 style="color:var(--gold); font-size:16px; margin-bottom:15px; border-bottom:1px solid var(--border); padding-bottom:10px; margin-top:25px;">${t.modal.lineupsHeader}</h3></div>`;
-      lineupsHtml += `
+      lineupsHtml = `
         <div class="lineup-grid">
           ${buildRosterHTML(m.home, homeRoster)}
           ${buildRosterHTML(m.away, awayRoster)}
@@ -812,7 +789,7 @@ window.showMatchDetail = async function(id) {
       `;
     }
 
-    // Nạp HTML vào khung body cuộn an toàn
+    // Nạp HTML vào khung body
     const scrollArea = document.getElementById('modal-scroll-body');
     if (scrollArea) {
         scrollArea.innerHTML = `
@@ -820,11 +797,6 @@ window.showMatchDetail = async function(id) {
           <div id="md-stats" class="md-content">${statsHtml}</div>
           <div id="md-lineups" class="md-content">${lineupsHtml}</div>
         `;
-        
-        // Cập nhật lại tự động hiện tiêu đề riêng nếu đang ở trên PC
-        if(window.innerWidth >= 1024) {
-            document.querySelectorAll('.pc-only-title').forEach(el => el.style.display = 'block');
-        }
     }
 
   } catch(e) {
@@ -837,9 +809,6 @@ window.showMatchDetail = async function(id) {
 };
 
 window.switchModalTab = function(tabId, btn) {
-  // Chặn đổi tab nếu đang trên PC (vì PC hiện song song 2 cột)
-  if(window.innerWidth >= 1024) return;
-
   document.querySelectorAll('.md-tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   
@@ -916,16 +885,6 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
-
-// Lắng nghe sự kiện thu phóng màn hình để cập nhật layout Modal
-window.addEventListener('resize', () => {
-    const pcTitles = document.querySelectorAll('.pc-only-title');
-    if(window.innerWidth >= 1024) {
-        pcTitles.forEach(el => el.style.display = 'block');
-    } else {
-        pcTitles.forEach(el => el.style.display = 'none');
-    }
-});
 
 document.addEventListener("DOMContentLoaded", () => {
   buildSettings();
