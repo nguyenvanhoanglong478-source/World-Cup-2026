@@ -69,7 +69,7 @@ header{background:var(--grass);padding:13px 15px 10px;border-bottom:2px solid va
 .s-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
 .s-section{margin-bottom:20px}
 .opt-grid{display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;max-height:250px;overflow-y:auto;}
-.opt-btn{background:var(--turf);border:2px solid var(--border);color:var(--text);border-radius:10px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;text-align:center;transition:all .15s}
+.opt-btn{background:var(--turf);border:2px solid var(--border);color:var(--text);border-radius:10px;padding:10px 5px;font-size:13px;font-weight:600;cursor:pointer;text-align:center;transition:all .15s}
 .opt-btn:hover{border-color:#3a8256; color:var(--white)}
 .opt-btn.sel{border-color:var(--gold);color:var(--gold);background:#1a5030}
 .tz-list{display:flex;flex-direction:column;gap:6px;max-height:250px;overflow-y:auto; padding-right:5px; overscroll-behavior: contain;}
@@ -166,84 +166,15 @@ header{background:var(--grass);padding:13px 15px 10px;border-bottom:2px solid va
 .stat-bar-fill-home { background: var(--gold); height: 100%; transition: width 0.5s ease; border-radius: 4px 0 0 4px; }
 .stat-bar-fill-away { background: var(--muted); height: 100%; transition: width 0.5s ease; border-radius: 0 4px 4px 0; margin-left: auto; }
 
-/* ĐỘI HÌNH (ĐÃ SỬA LỖI TRÀN DÒNG TRÊN MOBILE) */
-.lineup-grid { 
-  display: grid; 
-  grid-template-columns: 1fr 1fr; 
-  gap: 8px; /* Tối ưu gap cho màn mobile */
-  width: 100%; 
-  box-sizing: border-box; 
-}
-.lineup-team-block { 
-  background: var(--card); 
-  border: 1px solid var(--border); 
-  border-radius: 12px; 
-  padding: 12px 8px; /* Ép padding nhỏ lại */
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  min-width: 0; /* Bắt buộc để flex child ellipsis hoạt động */
-}
-.lineup-title-bar { 
-  font-size: 11px; 
-  font-weight: 800; 
-  color: var(--gold); 
-  text-align: center; 
-  text-transform: uppercase; 
-  padding-bottom: 8px; 
-  border-bottom: 1px solid var(--border); 
-  margin-bottom: 10px; 
-  letter-spacing: 0.5px;
-  white-space: nowrap; 
-  overflow: hidden; 
-  text-overflow: ellipsis;
-}
-.player-list-item { 
-  display: flex; 
-  align-items: center; 
-  gap: 6px; 
-  padding: 6px 2px; 
-  border-bottom: 1px solid rgba(255,255,255,0.03); 
-  min-width: 0; /* Giúp text bên trong được cắt ngắn */
-}
+/* ĐỘI HÌNH */
+.lineup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; box-sizing: border-box; }
+.lineup-team-block { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); min-width: 0; }
+.lineup-title-bar { font-size: 11px; font-weight: 800; color: var(--gold); text-align: center; text-transform: uppercase; padding-bottom: 8px; border-bottom: 1px solid var(--border); margin-bottom: 10px; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+.player-list-item { display: flex; align-items: center; gap: 6px; padding: 6px 2px; border-bottom: 1px solid rgba(255,255,255,0.03); min-width: 0; }
 .player-list-item:last-child { border-bottom: none; }
-.player-jersey-circle { 
-  width: 24px; 
-  height: 24px; 
-  background: var(--turf); 
-  border: 1px solid var(--border); 
-  border-radius: 50%; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  font-size: 10px; 
-  font-weight: 800; 
-  color: var(--gold); 
-  flex-shrink: 0; /* Số áo không bao giờ bị bóp méo */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-.player-name-txt { 
-  font-size: 11px; 
-  font-weight: 600; 
-  color: var(--white); 
-  white-space: nowrap; 
-  overflow: hidden; 
-  text-overflow: ellipsis; /* Text dài tự động thêm dấu ... */
-  flex: 1; 
-  min-width: 0; 
-}
-.bench-divider-lbl { 
-  text-align: center; 
-  font-size: 10px; 
-  font-weight: 700; 
-  color: var(--muted); 
-  text-transform: uppercase; 
-  margin: 12px 0 8px; 
-  padding: 4px 0; 
-  background: rgba(0,0,0,0.2); 
-  border-radius: 6px; 
-  letter-spacing: 0.8px; 
-  width: 100%; 
-  box-sizing: border-box;
-}
+.player-jersey-circle { width: 24px; height: 24px; background: var(--turf); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: var(--gold); flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.2);}
+.player-name-txt { font-size: 11px; font-weight: 600; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; }
+.bench-divider-lbl { text-align: center; font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; margin: 12px 0 8px; padding: 4px 0; background: rgba(0,0,0,0.2); border-radius: 6px; letter-spacing: 0.8px; width: 100%; box-sizing: border-box;}
 
 /* TOAST */
 .toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gold);border:1px solid var(--gold);border-radius:12px;padding:12px 24px;font-size:14px;font-weight:800;color:var(--pitch);z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;text-align:center;box-shadow:0 6px 20px rgba(0,0,0,0.4)}
@@ -266,7 +197,6 @@ header{background:var(--grass);padding:13px 15px 10px;border-bottom:2px solid va
     align-items: center;
   }
 
-  /* Header dàn ngang 1 dòng */
   header { 
     display: flex; 
     flex-direction: row;
@@ -284,13 +214,10 @@ header{background:var(--grass);padding:13px 15px 10px;border-bottom:2px solid va
   .tab:hover { background: rgba(245, 200, 66, 0.1); color: var(--gold); }
   .header-actions { order: 3; flex: 1; justify-content: flex-end; }
 
-  /* Thanh trạng thái */
   .status-bar { width: 100%; max-width: 880px; padding: 15px 10px; margin: 0 auto; border-bottom: 1px solid rgba(255,255,255,0.05); background: transparent; }
 
-  /* Cột giữa (chính) căn giữa */
   .content { width: 100%; padding: 25px 20px; display: flex; justify-content: center; }
 
-  /* Match card hiển thị dạng Grid 2 cột */
   .matches-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; align-items: start; width: 100%; max-width: 800px; }
   .date-header { grid-column: 1 / -1; font-size: 16px; padding-bottom: 8px; margin-top: 10px; border-bottom: 2px solid var(--border); }
   .match-card { margin-bottom: 0; border-radius: 16px; }
@@ -299,15 +226,12 @@ header{background:var(--grass);padding:13px 15px 10px;border-bottom:2px solid va
   .score { font-size: 34px; }
   .m-time { font-size: 12px; }
 
-  /* Bảng điểm chia 2 cột */
   .standings-wrapper { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; width: 100%; max-width: 900px; }
 
-  /* Giao diện Popup Settings Desktop */
   .modal-overlay { align-items: center; padding: 20px; backdrop-filter: blur(5px); }
   .modal-box { margin: auto; border-radius: 20px; border: 1px solid var(--border); animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
   #modal-settings .modal-box { max-width: 480px; padding: 30px !important; }
   
-  /* LỖI 1 FIX: Modal Chi tiết trận đấu CENTERED */
   #modal-match-wrapper { 
     max-width: 700px; 
     height: 85vh; 
@@ -320,7 +244,6 @@ header{background:var(--grass);padding:13px 15px 10px;border-bottom:2px solid va
   .det-name { font-size: 18px; }
   .det-flag img { width: 70px; height: 70px; }
 
-  /* Bố cục bên trong Chi tiết trận đấu: Canh giữa */
   #modal-scroll-body { 
     display: block; 
     padding: 20px 40px 40px; 
@@ -329,7 +252,6 @@ header{background:var(--grass);padding:13px 15px 10px;border-bottom:2px solid va
   .md-content { display: none; }
   .md-content.active { display: block; }
   
-  /* Tăng padding cho Lineup trên Desktop bù lại lúc thu nhỏ trên Mobile */
   .lineup-grid { gap: 15px; }
   .lineup-team-block { padding: 15px; }
   .lineup-title-bar { font-size: 12px; padding-bottom: 10px; margin-bottom: 12px; }
@@ -343,7 +265,6 @@ header{background:var(--grass);padding:13px 15px 10px;border-bottom:2px solid va
   to { transform: scale(1); opacity: 1; } 
 }
 
-/* Hover effects (chỉ cho Desktop có chuột) */
 @media (min-width: 1024px) and (hover: hover) {
   .match-card { transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
   .match-card:hover { transform: scale(1.02); box-shadow: 0 10px 25px rgba(0,0,0,0.4); border-color: var(--gold); z-index: 2; }
@@ -415,7 +336,7 @@ header{background:var(--grass);padding:13px 15px 10px;border-bottom:2px solid va
 
 <script>
 // ==========================================
-// 1. DICTIONARY (CHỈ GIỮ LẠI ĐÚNG 3 NGÔN NGỮ NHƯ YÊU CẦU)
+// 1. DICTIONARY (CHỈ GIỮ LẠI 3 NGÔN NGỮ)
 // ==========================================
 const LANGS = {
   en: { flag:"🇬🇧", label:"English", tabs: { today:"All", live:"🔴 Live", upcoming:"Upcoming", results:"Results", standings:"Standings" }, status: { liveCount:"Live", syncing:"Syncing...", updated:"Updated", loading:"Loading Tournament Data..." }, empty: { noMatch:"No matches available.", noLive:"No live matches at the moment.", stdLoad:"Standings are being updated..." }, std: { team:"Team", played:"P", gd:"GD", pts:"Pts" }, card: { day:"Date", stadium:"Stadium", upcoming:"UPCOMING" }, modal: { details:"Match Details", events:"Events", stats:"Stats", lineups:"Lineups", loading:"Fetching match details...", fail:"Could not load details.", goal:"Goal", yellowCard:"Yellow Card", redCard:"Red Card", owngoal:"Own Goal", penalty:"Penalty", eventsHeader: "⚡ Key Events", statsHeader: "📊 Match Stats", lineupsHeader: "👕 Lineups" }, inner: { noEvents:"No key events yet.", noStats:"Statistics not available.", noLineups:"Lineups not announced.", bench:"Bench", starters:"Starters" }, stats: { possession:"Possession", shots:"Shots (On Target)", passes:"Total Passes", fouls:"Fouls Committed", corners:"Won Corners" }, settings: { title:"⚙️ Settings", lang:"🌍 Language", tz:"🕐 Time Zone", refreshMsg:"Data refreshed!" } },
@@ -830,7 +751,7 @@ window.showMatchDetail = async function(id) {
       `;
     }
 
-    // Nạp HTML vào khung body
+    // Nạp HTML vào khung body cuộn an toàn
     const scrollArea = document.getElementById('modal-scroll-body');
     if (scrollArea) {
         scrollArea.innerHTML = `
@@ -855,9 +776,6 @@ window.showMatchDetail = async function(id) {
 };
 
 window.switchModalTab = function(tabId, btn) {
-  // Chặn đổi tab nếu đang trên PC (vì PC hiện song song 2 cột)
-  if(window.innerWidth >= 1024) return;
-
   document.querySelectorAll('.md-tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   
@@ -936,7 +854,7 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// Xử lý Resize tự động ẩn/hiện tiêu đề PC
+// Lắng nghe sự kiện thu phóng màn hình để cập nhật layout Modal
 window.addEventListener('resize', () => {
     const pcTitles = document.querySelectorAll('.pc-only-title');
     if(window.innerWidth >= 1024) {
